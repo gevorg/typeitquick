@@ -1,0 +1,26 @@
+@import url(//fonts.googleapis.com/css?family=Sigmar+One);
+
+body {
+    background-color: #3e8f3e;
+}
+
+.container {
+    max-width: 768px;
+}
+
+.box {
+    border-radius: 15px;
+    background-color: #ffffff;
+    font-family: "Georgia", "Times New Roman", serif;
+    color: #204B20;
+    padding: 15px;
+}
+
+.header {
+    cursor: default;
+    color: #204B20;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-size: 72px;
+    font-family: 'Sigmar One', cursive;
+}
