@@ -1,8 +1,12 @@
 # Import path module.
 path = require 'path'
 
-# Favicon path.
-icon = path.resolve __dirname + '/../../client/assets/favicon.ico'
+# File system.
+fs = require 'fs'
+
+# Favicon.
+iconPath = path.resolve __dirname + '/../../client/assets/favicon.ico'
+iconStat = fs.statSync iconPath
 
 # Export routes.
 module.exports = (app) ->
@@ -16,4 +20,10 @@ module.exports = (app) ->
 
   # Favicon.
   app.get '/favicon.ico', (req, res) ->
-    res.sendFile icon
+    # Send icon file.
+    res.sendFile iconPath, {
+      headers: {
+        'Content-Type': 'image/x-icon',
+        'Content-Length': iconStat.size
+      }
+    }
