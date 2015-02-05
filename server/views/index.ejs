@@ -24,11 +24,9 @@
     <script src="/assets/js/app.js"></script>
     <script src="/assets/js/controller/home.js"></script>
 
-    <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit" async defer></script>
     <script type="text/javascript">
         // Script load callback.
         var recaptchaLoaded = function() {
-            console.log('BOOOOOM!!!');
             // Connecting to controller.
             $(window).trigger('recaptchaLoaded');
         };
