@@ -1,3 +1,6 @@
+# Configs.
+configs = require '../configs'
+
 # Import path module.
 path = require 'path'
 
@@ -8,6 +11,9 @@ fs = require 'fs'
 iconPath = path.resolve __dirname + '/../../client/assets/favicon.ico'
 iconStat = fs.statSync iconPath
 
+# Sweet - sweet captcha.
+sweetcaptcha = new require('sweetcaptcha')(configs.CAPTCHA.APP_ID, configs.CAPTCHA.APP_KEY, configs.CAPTCHA.APP_SEC)
+
 # Export routes.
 module.exports = (app) ->
   # Load index page.
@@ -16,7 +22,10 @@ module.exports = (app) ->
 
   # Home view.
   app.get '/home', (req, res) ->
-    res.render 'home'
+    sweetcaptcha.api 'get_html', (err, html) ->
+      res.render 'home', {
+        captcha: html
+      }
 
   # Favicon.
   app.get '/favicon.ico', (req, res) ->

@@ -1,0 +1,15 @@
+.box div.sweetcaptcha {
+    max-width: 100% !important;
+    background: transparent !important;
+}
+
+.box div.sweetcaptcha p {
+    font-family: Arial, Helvetica, sans-serif;
+    color: green;
+    font-size: 16px;
+}
+
+.box div.sweetcaptcha ul li {
+    cursor: pointer;
+    margin: 0 24px 4px 0!important
+}
