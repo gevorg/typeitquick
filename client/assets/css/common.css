@@ -14,6 +14,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     color: #204B20;
     padding: 0 15px 15px 15px;
+    margin-bottom: 15px;
 }
 
 .header {
@@ -30,10 +31,6 @@ body {
     text-align: center;
     color: green;
     font-weight: bold;
-}
-
-.fork-me {
-    opacity: 0.8;
 }
 
 textarea {

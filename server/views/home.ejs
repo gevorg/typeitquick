@@ -1,15 +1,25 @@
-<div class="start-now">
-    Start your own online typing contest!
+<div class="box">
+    <div class="start-now">
+        Start your own online typing contest!
+    </div>
+    <div class="form-group">
+        <textarea class="form-control input-lg" rows="3" placeholder="Contest text goes here..."></textarea>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control input-lg" placeholder="Your name goes here...">
+    </div>
+    <hr/>
+    <div class="form-group row">
+        <div class="col-xs-7">
+            <div id="g-recaptcha"></div>
+        </div>
+        <div class="col-xs-5 text-center">
+            <a href="http://github.com/gevorg/typeitquick" target="_blank">
+                <img src="/assets/forkme.png" height="80">
+            </a>
+        </div>
+    </div>
 </div>
-<div class="form-group">
-    <textarea class="form-control input-lg" rows="3" placeholder="Contest text goes here..."></textarea>
-</div>
-<div class="form-group">
-    <input type="text" class="form-control input-lg" placeholder="Your name goes here...">
-</div>
-<div class="form-group" id="home-captcha" ng-init="initCaptcha()">
-    <%- captcha %>
-</div>
-<div class="text-center">
-    <button type="button" class="btn btn-lg btn-success" disabled>Start Now!</button>
+<div class="text-center form-group">
+    <button type="button" class="btn btn-lg btn-success">Start Contest Now!</button>
 </div>
