@@ -47,4 +47,46 @@ input {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
     color: #FFEEEE;
+    box-shadow: 0 5px 5px #243;
+}
+
+.btn {
+    box-shadow: 0 5px 5px #243;
+}
+
+.super-shadow
+{
+    position: relative;
+}
+
+.super-shadow:before, .super-shadow:after
+{
+    z-index: -1;
+    position: absolute;
+    content: "";
+    bottom: 15px;
+    left: 10px;
+    width: 50%;
+    top: 80%;
+    max-width:300px;
+    background: #243;
+    -webkit-box-shadow: 0 20px 10px #243;
+    -moz-box-shadow: 0 20px 10px #243;
+    box-shadow: 0 20px 10px #243;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+}
+
+.super-shadow:after
+{
+    -webkit-transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -o-transform: rotate(3deg);
+    -ms-transform: rotate(3deg);
+    transform: rotate(3deg);
+    right: 10px;
+    left: auto;
 }
