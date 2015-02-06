@@ -13,6 +13,9 @@ iconStat = fs.statSync iconPath
 
 # Export routes.
 module.exports = (app) ->
+  # Contest routes.
+  (require './contest')(app)
+
   # Load index page.
   app.get '/', (req, res) ->
     res.render 'index', {

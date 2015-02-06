@@ -5,6 +5,10 @@ angular.module('TypeItQuick', ['ui.bootstrap', 'ngRoute']).config(function($rout
             controller: 'HomeCtrl',
             templateUrl: 'home'
         })
+        .when('/c/:contestId', {
+            controller: 'ContestCtrl',
+            templateUrl: 'contest'
+        })
         .otherwise({
             redirectTo: '/'
         });

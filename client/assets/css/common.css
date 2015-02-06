@@ -34,9 +34,17 @@ body {
 }
 
 textarea {
-    background-color: #ffff00 !important;
+    background-color: #FFFECC !important;
 }
 
 input {
-    background-color: #ffff00 !important;
+    background-color: #FFFECC !important;
+}
+
+.alert-error {
+    background-color: red;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    color: #FFEEEE;
 }

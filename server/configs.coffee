@@ -5,3 +5,4 @@ module.exports =
   CAPTCHA:
     APP_KEY: process.env.CAPTCHA_APP_KEY
     APP_SEC: process.env.CAPTCHA_APP_SEC
+    VERIFY_URL: 'https://www.google.com/recaptcha/api/siteverify?secret=' + process.env.CAPTCHA_APP_SEC + '&response='

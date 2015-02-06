@@ -3,10 +3,10 @@
         Start your own online typing contest!
     </div>
     <div class="form-group">
-        <textarea class="form-control input-lg" rows="3" placeholder="Contest text goes here..."></textarea>
+        <textarea ng-model="words" class="form-control input-lg" rows="3" placeholder="Contest text goes here..."></textarea>
     </div>
     <div class="form-group">
-        <input type="text" class="form-control input-lg" placeholder="Your name goes here...">
+        <input ng-model="user" type="text" class="form-control input-lg" placeholder="Your name goes here...">
     </div>
     <hr/>
     <div class="form-group row">
@@ -20,6 +20,9 @@
         </div>
     </div>
 </div>
+<div class="alert alert-error text-center" ng-if="errorMsg">
+    {{ errorMsg }}
+</div>
 <div class="text-center form-group">
-    <button type="button" class="btn btn-lg btn-success">Start Contest Now!</button>
+    <button type="button" class="btn btn-lg btn-success" ng-click="start()" ng-disabled="processing">Start Contest Now!</button>
 </div>
