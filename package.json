@@ -1,5 +1,9 @@
 {
   "name": "typeitquick",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/gevorg/typeitquick.git"
+  },
   "scripts": {
     "postinstall": "bower cache clean && bower install"
   },

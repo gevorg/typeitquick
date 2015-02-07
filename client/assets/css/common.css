@@ -25,7 +25,7 @@ body {
     font-family: 'Sigmar One', cursive;
 }
 
-.start-now {
+.sub-header {
     padding: 15px 0;
     font-size: 30px;
     text-align: center;
@@ -89,4 +89,45 @@ input {
     transform: rotate(3deg);
     right: 10px;
     left: auto;
+}
+
+.super-text {
+    background-color: #FFFECC;
+    border: 1px solid yellowgreen;
+    font-size: 24px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.word-done {
+    color: grey;
+}
+
+.word-now span {
+    color: red;
+    text-decoration: underline;
+}
+
+.unselectable {
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.progress {
+    height: 35px;
+}
+
+.progress .progress-bar {
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 7px;
+}
+
+.progress nobr {
+    color: #204B20;
 }

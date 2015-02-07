@@ -18,8 +18,8 @@ app.use cookieParser()
 
 ## Session initializer.
 app.use session({
-  cookie: { maxAge: 60 * 60000 * 24 * 30 } # 30 days.
-  secret: 'Dark is the sky'
+  cookie: { maxAge: 60 * 60000 * 24 } # 24 hours.
+  secret: 'Johnny Was A Good Man'
   resave: true
   saveUninitialized: true
 })

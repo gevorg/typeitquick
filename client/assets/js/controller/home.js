@@ -1,22 +1,15 @@
 // Home controller for TypeItQuick app.
 angular.module('TypeItQuick').
-    controller('HomeCtrl', ['$scope', '$http', '$location', '$window', 'contestService',
-        function($scope, $http, $location, $window, contestService) {
+    controller('HomeCtrl', ['$scope', '$http', '$location', '$window', 'contestService', 'captchaService',
+        function($scope, $http, $location, $window, contestService, captchaService) {
             // Init.
             $scope.words = '';
             $scope.user = '';
             $scope.processing = false;
             $scope.errorMsg = '';
 
-            // Add captcha script.
-            $('head').append($('<script src="https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit" async defer></script>'));
-
-            // Render captcha.
-            $($window).on('recaptchaLoaded', function() {
-                grecaptcha.render('g-recaptcha', {
-                    'sitekey': $window.captchaKey
-                });
-            });
+            // Load captcha.
+            captchaService.loadCaptcha('g-recaptcha');
 
             // Start contest.
             $scope.start = function() {
