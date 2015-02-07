@@ -21,6 +21,8 @@
     <script src="/components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="/components/angular-route/angular-route.min.js"></script>
 
+    <script src="/socket.io/socket.io.js"></script>
+
     <script src="/assets/js/app.js"></script>
     <script src="/assets/js/service/contest.js"></script>
     <script src="/assets/js/controller/home.js"></script>
@@ -35,6 +37,9 @@
 
         // Captcha key.
         window.captchaKey = '<%= captchaKey %>';
+
+        // Site url.
+        window.siteUrl = '<%= siteUrl %>';
     </script>
 </head>
 <body>

@@ -4,10 +4,18 @@ require('coffee-script/register');
 // Configs.
 var configs = require('./server/configs');
 
-// Fetch express app.
-var app = require('./server/app');
+// Init express.
+var express = require('express');
+var app = express();
+
+// Setup servers.
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+// Setup application.
+require('./server/app')(app, express, io);
 
 // Start listening on port.
-app.listen(configs.PORT, function() {
+http.listen(configs.PORT, function() {
     console.log("Listening on " + configs.PORT);
 });

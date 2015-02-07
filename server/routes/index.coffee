@@ -12,14 +12,15 @@ iconPath = path.resolve __dirname + '/../../client/assets/favicon.ico'
 iconStat = fs.statSync iconPath
 
 # Export routes.
-module.exports = (app) ->
+module.exports = (app, io) ->
   # Contest routes.
-  (require './contest')(app)
+  (require './contest')(app, io)
 
   # Load index page.
   app.get '/', (req, res) ->
     res.render 'index', {
       captchaKey: configs.CAPTCHA.APP_KEY
+      siteUrl: configs.SITE_URL
     }
 
   # Home view.

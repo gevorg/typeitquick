@@ -20,7 +20,7 @@ body {
 .header {
     cursor: default;
     color: #204B20;
-    margin: 30px 0;
+    margin: 20px 0;
     font-size: 64px;
     font-family: 'Sigmar One', cursive;
 }
@@ -99,6 +99,16 @@ input {
     border-radius: 5px;
 }
 
+.super-chat {
+    background-color: #FFFECC;
+    border: 1px solid yellowgreen;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    height: 300px;
+    overflow: auto;
+}
+
 .word-done {
     color: grey;
 }
@@ -130,4 +140,11 @@ input {
 
 .progress nobr {
     color: #204B20;
+}
+
+.general-msg {
+    font-style: italic;
+    color: grey;
+    display: block;
+    text-align: center;
 }

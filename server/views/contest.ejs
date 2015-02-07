@@ -38,8 +38,20 @@
                 </progressbar>
             </div>
         </div>
-        <div class="form-group super-text unselectable">
+        <div class="form-group">
+            <input type="text" class="form-control input-lg" ng-model="msgInput" placeholder="Send message..." ng-keyup="sendMsg($event)"/>
+        </div>
+        <div class="form-group super-chat">
+            <div ng-repeat="msg in messages track by $index">
+                <b ng-if="msg.user">{{ msg.user }}: </b>
+                <span ng-class="msg.user ? '' : 'general-msg' ">{{ msg.text }}</span>
+            </div>
+        </div>
+        <div class="form-group super-text unselectable" ng-show="state != 'Waiting'">
             <span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span>{{ word }}</span> </span>
         </div>
+    </div>
+    <div class="text-center form-group">
+        <button type="button" class="btn btn-lg btn-success" ng-disabled="processing">Start Typing!</button>
     </div>
 </div>

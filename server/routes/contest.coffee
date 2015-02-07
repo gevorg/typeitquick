@@ -10,6 +10,9 @@ uuid = require 'node-uuid'
 # Request module.
 request = require 'request'
 
+# Namespaces.
+namespaces = {}
+
 # Starting contest.
 startContest = (words, user) ->
   # Create contest.
@@ -33,8 +36,18 @@ startContest = (words, user) ->
   # Return it.
   return contest.id
 
+# Setup namespace.
+setupNamespace = (io, contest) ->
+  nsp = io.of '/' + contest
+  nsp.on 'connection', (socket) ->
+    # Setup message handler.
+    socket.on 'msg', (data) ->
+      nsp.emit 'msg', data
+
+  namespaces[contest] = nsp
+
 # Export routes.
-module.exports = (app) ->
+module.exports = (app, io) ->
   # Contest view.
   app.get '/contest', (req, res) ->
     res.render 'contest'
@@ -56,6 +69,9 @@ module.exports = (app) ->
 
             # Save session info.
             req.session[contest.id] = 0
+
+            # Setup namespace.
+            setupNamespace io, contest.id
 
             # Return result.
             res.json [contest, 0]
@@ -87,6 +103,9 @@ module.exports = (app) ->
 
             # Session.
             req.session[contest.id] = newLength - 1
+
+            # Inform users.
+            namespaces[contest.id].emit 'join', user
 
             # Return result.
             res.json [contest, newLength - 1]

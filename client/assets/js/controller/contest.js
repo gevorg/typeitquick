@@ -5,21 +5,46 @@ angular.module('TypeItQuick').
             // UI.
             $scope.processing = false;
             $scope.errorMsg = '';
+            $scope.messages = [ { text: 'You can send messages to other players using text box above.' } ];
+            $scope.state = 'Waiting';
+
+            // Connection socket.
+            var socket;
 
             // Init contest data.
             function initData(result) {
                 // Get data.
-                $scope.contest = result[0];
-                $scope.user = result[1];
+                var contest = result[0];
+
+                // Fetch user.
+                $scope.user = contest.users[result[1]];
 
                 // Extract words.
-                $scope.words = contestService.words($scope.contest.words);
+                $scope.words = contestService.words(contest.words);
 
                 // Set users.
-                $scope.users = $scope.contest.users;
+                $scope.users = contest.users;
 
                 // Not join mode.
                 $scope.joinMode = false;
+
+                // Setup socket.
+                socket = io($window.siteUrl + result[0].id);
+
+                // Message handler.
+                socket.on('msg', function(message) {
+                    $scope.$apply(function () {
+                        $scope.messages.unshift(message);
+                    });
+                });
+
+                // Join handler.
+                socket.on('join', function(user) {
+                    $scope.$apply(function () {
+                        $scope.messages.unshift({ user: user.name, text: 'joined contest' });
+                        $scope.users.push(user);
+                    });
+                });
             }
 
             // Join contest.
@@ -37,9 +62,18 @@ angular.module('TypeItQuick').
                 }
             });
 
+            // Send chat message.
+            $scope.sendMsg = function($event) {
+                // Not empty msg and enter key.
+                if ($scope.msgInput && $scope.msgInput.trim().length && $event.which === 13) {
+                    socket.emit('msg', { user: $scope.user.name, text: $scope.msgInput.trim() });
+                    $scope.msgInput = '';
+                }
+            };
+
             // Word class function.
             $scope.wordClass = function(index) {
-                var wordIndex = $scope.users[$scope.user].progress;
+                var wordIndex = $scope.user.progress;
 
                 if (index < wordIndex) {
                     return 'word-done';

@@ -18,8 +18,8 @@ angular.module('TypeItQuick').
                 $scope.errorMsg = '';
 
                 // Validation.
-                if (contestService.words($scope.words).length < 3) {
-                    $scope.errorMsg = "Contest text should have at least 3 words!";
+                if (contestService.words($scope.words).length < 10) {
+                    $scope.errorMsg = "Contest text should have at least 10 words!";
                 } else if (!$scope.user) {
                     $scope.errorMsg = "You need to provide your name to start contest!";
                 } else if (!$('#g-recaptcha-response').val()) {
