@@ -66,7 +66,8 @@ angular.module('TypeItQuick').
 
             // Check word.
             $scope.checkWord = function($event) {
-                if ($scope.user && ($event.which === 13 || $event.which === 32)) {
+                if ($scope.user && $scope.user.progress !== $scope.words.length &&
+                    ($event.which === 13 || $event.which === 32)) {
                     if (contestService.wordDone($scope.user.progress, $scope.words, $scope.word)) {
                         // Clear input.
                         $scope.word = '';
@@ -88,7 +89,8 @@ angular.module('TypeItQuick').
             // Input class.
             $scope.inputClass = function() {
                 // If word is wrong.
-                if ($scope.user && !contestService.checkWord($scope.user.progress, $scope.words, $scope.word)) {
+                if ($scope.user && $scope.user.progress !== $scope.words.length &&
+                    !contestService.checkWord($scope.user.progress, $scope.words, $scope.word)) {
                     return 'wrong-word';
                 } else {
                     return '';
