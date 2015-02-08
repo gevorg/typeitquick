@@ -1,7 +1,7 @@
 // Chat controller for TypeItQuick app.
 angular.module('TypeItQuick').
-    controller('ChatCtrl', ['$scope', '$http', '$location', '$window', 'contestService', '$routeParams',
-        function($scope, $http, $location, $window, contestService, $routeParams) {
+    controller('ChatCtrl', ['$scope', '$http', '$location', '$window', '$routeParams', 'ioService',
+        function($scope, $http, $location, $window, $routeParams, ioService) {
             // UI.
             $scope.processing = false;
             $scope.errorMsg = '';
@@ -19,17 +19,17 @@ angular.module('TypeItQuick').
                 $scope.users = result.users;
 
                 // Setup socket.
-                socket = io($window.siteUrl + $routeParams.contestId);
+                ioService.setup();
 
                 // Message handler.
-                socket.on('msg', function(message) {
+                ioService.on('msg', function(message) {
                     $scope.$apply(function () {
                         $scope.chatMessages.unshift(message);
                     });
                 });
 
                 // Join handler.
-                socket.on('join', function(user) {
+                ioService.on('join', function(user) {
                     $scope.$apply(function () {
                         $scope.chatMessages.unshift({ user: user.name, text: 'joined contest' });
                         $scope.users.push(user);
@@ -53,7 +53,7 @@ angular.module('TypeItQuick').
             $scope.sendMsg = function($event) {
                 // Not empty msg and enter key.
                 if ($scope.msgInput && $scope.msgInput.trim().length && $event.which === 13) {
-                    socket.emit('msg', { user: $scope.user.name, text: $scope.msgInput.trim() });
+                    ioService.emit('msg', { user: $scope.user.name, text: $scope.msgInput.trim() });
                     $scope.msgInput = '';
                 }
             };

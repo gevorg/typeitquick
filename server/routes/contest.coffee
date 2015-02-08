@@ -1,50 +1,14 @@
 # Configs.
 configs = require '../configs'
 
-# Contests.
-contests = {}
-
-# UUID module.
-uuid = require 'node-uuid'
-
 # Request module.
 request = require 'request'
 
-# Namespaces.
-namespaces = {}
+# IO service.
+ioService = require '../io.coffee'
 
-# Starting contest.
-startContest = (words, user) ->
-  # Create contest.
-  contest = {
-    id: uuid.v4()
-    created: Date.now()
-    state: 'Waiting'
-    words: words
-    users: [
-      {
-        name: user
-        progress: 0
-        creator: true
-      }
-    ]
-  }
-
-  # Add to cache.
-  contests[contest.id] = contest
-
-  # Return it.
-  return contest.id
-
-# Setup namespace.
-setupNamespace = (io, contest) ->
-  nsp = io.of '/' + contest
-  nsp.on 'connection', (socket) ->
-    # Setup message handler.
-    socket.on 'msg', (data) ->
-      nsp.emit 'msg', data
-
-  namespaces[contest] = nsp
+# Contest service.
+contestService = require '../contest'
 
 # Export routes.
 module.exports = (app, io) ->
@@ -68,7 +32,7 @@ module.exports = (app, io) ->
   app.post '/type', (req, res) ->
     if req.body.id
       # Fetching contest.
-      contest = contests[req.body.id]
+      contest = contestService.get req.body.id
 
       # If it is valid.
       if contest && contest.state == 'Waiting'
@@ -85,7 +49,7 @@ module.exports = (app, io) ->
   app.post '/chat', (req, res) ->
     if req.body.id
       # Fetching contest.
-      contest = contests[req.body.id]
+      contest = contestService.get req.body.id
 
       # If it is valid.
       if contest && contest.state == 'Waiting'
@@ -102,26 +66,21 @@ module.exports = (app, io) ->
   app.post '/join', (req, res) ->
     if req.body.user && req.body.captcha && req.body.id
       # Fetching contest.
-      contest = contests[req.body.id]
+      contest = contestService.get req.body.id
+
+      # Check state.
       if contest && contest.state == 'Waiting'
         # Verifying captcha.
         request configs.CAPTCHA.VERIFY_URL + req.body.captcha + '&remoteip=' + req.ip, (error, response, body) ->
           if JSON.parse(body).success
-            #  New user.
-            user = {
-              name: req.body.user
-              progress: 0
-              creator: false
-            }
-
-            # Join contest.
-            newLength = contest.users.push user
+            # Join user.
+            userIndex = contest.join req.body.user
 
             # Session.
-            req.session[contest.id] = newLength - 1
+            req.session[contest.id] = userIndex
 
             # Inform users.
-            namespaces[contest.id].emit 'join', user
+            ioService.emit contest.id, 'join', contest.users[userIndex]
 
             # Return result.
             res.end 'DONE'
@@ -138,17 +97,17 @@ module.exports = (app, io) ->
       # Verifying captcha.
       request configs.CAPTCHA.VERIFY_URL + req.body.captcha + '&remoteip=' + req.ip, (error, response, body) ->
         if JSON.parse(body).success
-          # Create contest.
-          contest = startContest req.body.words, req.body.user
+          # Start contest.
+          contest = contestService.start req.body.words, req.body.user
 
-          # Setup namespace.
-          setupNamespace io, contest
+          # Setup IO.
+          ioService.contest io, contest
 
           # Add session info.
-          req.session[contest] = 0
+          req.session[contest.id] = 0
 
           # Return result.
-          res.end contest
+          res.end contest.id
         else
           (res.status 400).send 'CAPTCHA validation failed!'
     else
