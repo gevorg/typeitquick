@@ -13,6 +13,13 @@ class IO
       socket.on 'msg', (data) =>
         @namespace.emit 'msg', data
 
+      # Setup type handler.
+      socket.on 'type', (data) =>
+        @contest.state = 'Type'
+        @contest.type = data.date
+
+        @namespace.emit 'type', data
+
     # Add to namespace object.
     namespaces[@contest.id] = @namespace
 

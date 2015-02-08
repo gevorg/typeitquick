@@ -9,6 +9,9 @@ angular.module('TypeItQuick').
             // Load captcha.
             captchaService.load('g-recaptcha');
 
+            // Focus input.
+            $('input').focus();
+
             // Join contest.
             $scope.join = function() {
                 // Processing starts.

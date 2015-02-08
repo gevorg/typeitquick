@@ -5,7 +5,7 @@ configs = require '../configs'
 request = require 'request'
 
 # IO service.
-ioService = require '../io.coffee'
+ioService = require '../io'
 
 # Contest service.
 contestService = require '../contest'
@@ -35,7 +35,7 @@ module.exports = (app, io) ->
       contest = contestService.get req.body.id
 
       # If it is valid.
-      if contest && contest.state == 'Waiting'
+      if contest && contest.state == 'Type'
         if req.session.hasOwnProperty contest.id
           res.json { user: req.session[contest.id], users: contest.users, words: contest.words }
         else
@@ -52,11 +52,16 @@ module.exports = (app, io) ->
       contest = contestService.get req.body.id
 
       # If it is valid.
-      if contest && contest.state == 'Waiting'
-        if req.session.hasOwnProperty contest.id
-          res.json { user: req.session[contest.id], users: contest.users }
+      if contest
+        if contest.state == 'Waiting'
+          if req.session.hasOwnProperty contest.id
+            res.json { user: req.session[contest.id], users: contest.users }
+          else
+            (res.status 401).send 'Need to join!'
+        else if contest.state == 'Type' && req.session.hasOwnProperty contest.id
+          (res.status 410).send 'Typing already started!'
         else
-          (res.status 401).send 'Need to join!'
+          (res.status 404).send 'Contest not found!'
       else
         (res.status 404).send 'Contest not found!'
     else

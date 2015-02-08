@@ -8,6 +8,9 @@ angular.module('TypeItQuick').
             $scope.processing = false;
             $scope.errorMsg = '';
 
+            // Focus input.
+            $('textarea').focus();
+
             // Load captcha.
             captchaService.load('g-recaptcha');
 

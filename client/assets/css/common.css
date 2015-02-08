@@ -17,8 +17,9 @@ body {
     margin-bottom: 15px;
 }
 
-.header {
-    cursor: default;
+.header, .header:focus, .header:visited, .header:active, .header:hover {
+    display: block;
+    text-decoration: none;
     color: #204B20;
     margin: 20px 0;
     font-size: 64px;

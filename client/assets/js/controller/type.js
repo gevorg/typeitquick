@@ -12,6 +12,9 @@ angular.module('TypeItQuick').
 
                 // Extract words.
                 $scope.words = contestService.words(result.words);
+
+                // Focus input.
+                $('input').focus();
             }
 
             // Join typing.

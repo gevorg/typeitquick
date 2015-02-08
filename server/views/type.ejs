@@ -1,4 +1,4 @@
-<div class="box super-shadow" ng-if="words">
+<div class="box super-shadow">
     <div class="sub-header">
         Start typing now!
     </div>
@@ -13,5 +13,8 @@
     </div>
     <div class="form-group super-text unselectable">
         <span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span>{{ word }}</span> </span>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control input-lg" placeholder="Type words here...">
     </div>
 </div>

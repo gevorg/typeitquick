@@ -7,9 +7,6 @@ angular.module('TypeItQuick').
             $scope.errorMsg = '';
             $scope.chatMessages = [ { text: 'You can send messages to other players using text box above.' } ];
 
-            // Connection socket.
-            var socket;
-
             // Init contest data.
             function initData(result) {
                 // Fetch user.
@@ -20,6 +17,9 @@ angular.module('TypeItQuick').
 
                 // Setup socket.
                 ioService.setup();
+
+                // Focus input.
+                $('input').focus();
 
                 // Message handler.
                 ioService.on('msg', function(message) {
@@ -35,6 +35,13 @@ angular.module('TypeItQuick').
                         $scope.users.push(user);
                     });
                 });
+
+                // Type handler.
+                ioService.on('type', function() {
+                    $scope.$apply(function () {
+                        $location.path('/t/' + $routeParams.contestId);
+                    });
+                })
             }
 
             // Join chat.
@@ -44,6 +51,8 @@ angular.module('TypeItQuick').
             }).error(function(result, status) {
                 if (status == 401) {
                     $location.path('/j/' + $routeParams.contestId);
+                } else if (status == 410) {
+                    $location.path('/t/' + $routeParams.contestId);
                 } else {
                     $location.path('/');
                 }
@@ -60,7 +69,7 @@ angular.module('TypeItQuick').
 
             // Start typing.
             $scope.start = function() {
-                $location.path('/t/' + $routeParams.contestId);
+                ioService.emit('type', { date: Date.now() });
             };
         }
     ]);
