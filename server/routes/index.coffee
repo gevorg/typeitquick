@@ -23,10 +23,6 @@ module.exports = (app, io) ->
       siteUrl: configs.SITE_URL
     }
 
-  # Home view.
-  app.get '/home', (req, res) ->
-    res.render 'home'
-
   # Favicon.
   app.get '/favicon.ico', (req, res) ->
     # Send icon file.

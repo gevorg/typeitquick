@@ -1,0 +1,17 @@
+<div class="box super-shadow" ng-if="words">
+    <div class="sub-header">
+        Start typing now!
+    </div>
+    <div class="form-group unselectable">
+        <div ng-repeat="user in users track by $index">
+            <div class="user-row">
+                <progressbar class="progress-striped" max="words.length" value="user.progress" type="warning">
+                    <nobr>&nbsp;{{ user.name }} - {{ progress(user) }}</nobr>
+                </progressbar>
+            </div>
+        </div>
+    </div>
+    <div class="form-group super-text unselectable">
+        <span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span>{{ word }}</span> </span>
+    </div>
+</div>

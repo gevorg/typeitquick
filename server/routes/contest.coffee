@@ -25,7 +25,7 @@ startContest = (words, user) ->
       {
         name: user
         progress: 0
-        joined: false
+        creator: true
       }
     ]
   }
@@ -48,12 +48,24 @@ setupNamespace = (io, contest) ->
 
 # Export routes.
 module.exports = (app, io) ->
-  # Contest view.
-  app.get '/contest', (req, res) ->
-    res.render 'contest'
+  # Start view.
+  app.get '/start', (req, res) ->
+    res.render 'start'
 
-  # Join contest.
-  app.post '/contest/join', (req, res) ->
+  # Chat view.
+  app.get '/chat', (req, res) ->
+    res.render 'chat'
+
+  # Join view.
+  app.get '/join', (req, res) ->
+    res.render 'join'
+
+  # Type view.
+  app.get '/type', (req, res) ->
+    res.render 'type'
+
+  # Type.
+  app.post '/type', (req, res) ->
     if req.body.id
       # Fetching contest.
       contest = contests[req.body.id]
@@ -61,29 +73,33 @@ module.exports = (app, io) ->
       # If it is valid.
       if contest && contest.state == 'Waiting'
         if req.session.hasOwnProperty contest.id
-          res.json [contest, req.session[contest.id]]
+          res.json { user: req.session[contest.id], users: contest.users, words: contest.words }
         else
-          if contest.users.length == 1 && !contest.users[0].joined
-            user = contest.users[0]
-            user.joined = true
-
-            # Save session info.
-            req.session[contest.id] = 0
-
-            # Setup namespace.
-            setupNamespace io, contest.id
-
-            # Return result.
-            res.json [contest, 0]
-          else
-            (res.status 401).send 'Need to join!'
+          (res.status 401).send 'Need to join!'
       else
-        (res.status 400).send 'Contest not found!'
+        (res.status 404).send 'Contest not found!'
+    else
+      (res.status 400).send 'Missing contest id!'
+
+  # Chat.
+  app.post '/chat', (req, res) ->
+    if req.body.id
+      # Fetching contest.
+      contest = contests[req.body.id]
+
+      # If it is valid.
+      if contest && contest.state == 'Waiting'
+        if req.session.hasOwnProperty contest.id
+          res.json { user: req.session[contest.id], users: contest.users }
+        else
+          (res.status 401).send 'Need to join!'
+      else
+        (res.status 404).send 'Contest not found!'
     else
       (res.status 400).send 'Missing contest id!'
 
   # Join contest.
-  app.put '/contest/join', (req, res) ->
+  app.post '/join', (req, res) ->
     if req.body.user && req.body.captcha && req.body.id
       # Fetching contest.
       contest = contests[req.body.id]
@@ -95,7 +111,7 @@ module.exports = (app, io) ->
             user = {
               name: req.body.user
               progress: 0
-              joined: true
+              creator: false
             }
 
             # Join contest.
@@ -108,21 +124,31 @@ module.exports = (app, io) ->
             namespaces[contest.id].emit 'join', user
 
             # Return result.
-            res.json [contest, newLength - 1]
+            res.end 'DONE'
           else
             (res.status 400).send 'CAPTCHA validation failed!'
       else
-        (res.status 400).send 'Cannot join contest!'
+        (res.status 404).send 'Cannot join contest!'
     else
       (res.status 400).send 'Missing request parameters!'
 
-    # Start contest.
-  app.post '/contest/start', (req, res) ->
+  # Start contest.
+  app.post '/start', (req, res) ->
     if req.body.words && req.body.user && req.body.captcha
       # Verifying captcha.
       request configs.CAPTCHA.VERIFY_URL + req.body.captcha + '&remoteip=' + req.ip, (error, response, body) ->
         if JSON.parse(body).success
-          res.end (startContest req.body.words, req.body.user)
+          # Create contest.
+          contest = startContest req.body.words, req.body.user
+
+          # Setup namespace.
+          setupNamespace io, contest
+
+          # Add session info.
+          req.session[contest] = 0
+
+          # Return result.
+          res.end contest
         else
           (res.status 400).send 'CAPTCHA validation failed!'
     else

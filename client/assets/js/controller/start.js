@@ -1,6 +1,6 @@
-// Home controller for TypeItQuick app.
+// Start controller for TypeItQuick app.
 angular.module('TypeItQuick').
-    controller('HomeCtrl', ['$scope', '$http', '$location', '$window', 'contestService', 'captchaService',
+    controller('StartCtrl', ['$scope', '$http', '$location', '$window', 'contestService', 'captchaService',
         function($scope, $http, $location, $window, contestService, captchaService) {
             // Init.
             $scope.words = '';
@@ -9,7 +9,7 @@ angular.module('TypeItQuick').
             $scope.errorMsg = '';
 
             // Load captcha.
-            captchaService.loadCaptcha('g-recaptcha');
+            captchaService.load('g-recaptcha');
 
             // Start contest.
             $scope.start = function() {
@@ -28,11 +28,13 @@ angular.module('TypeItQuick').
 
                 // Ready to start.
                 if (!$scope.errorMsg) {
-                    $http.post('/contest/start', {
+                    $http.post('/start', {
                         words: $scope.words,
                         user: $scope.user,
                         captcha: $('#g-recaptcha-response').val()
                     }).success(function(contestId) {
+                        captchaService.destroy();
+
                         // Go to contest.
                         $location.path('/c/' + contestId);
 
