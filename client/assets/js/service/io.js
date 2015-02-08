@@ -7,8 +7,10 @@ angular.module('TypeItQuick')
         // Return service object.
         return {
             setup: function() {
-                // Setup socket.
-                socket = io($window.siteUrl + $routeParams.contestId);
+                if (!socket) { // If there is no connection.
+                    // Setup socket.
+                    socket = io($window.siteUrl + $routeParams.contestId);
+                }
             },
             on: function(event, handler) {
                 // Setup handler.

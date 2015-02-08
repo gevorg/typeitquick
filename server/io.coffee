@@ -13,6 +13,11 @@ class IO
       socket.on 'msg', (data) =>
         @namespace.emit 'msg', data
 
+      # Word handler.
+      socket.on 'word', (data) =>
+        @contest.users[data.user].progress = data.progress
+        socket.broadcast.emit 'word', data
+
       # Setup type handler.
       socket.on 'type', (data) =>
         @contest.state = 'Type'

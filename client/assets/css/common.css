@@ -149,3 +149,8 @@ input {
     display: block;
     text-align: center;
 }
+
+.wrong-word {
+    background-color: #ac2925 !important;
+    color: white;
+}

@@ -4,7 +4,6 @@ angular.module('TypeItQuick')
         return {
             destroy: function() {
                 angular.element(document.querySelectorAll('.pls-container')).remove();
-                grecaptcha.reset();
             },
             load: function(id) {
                 // Add captcha script.
