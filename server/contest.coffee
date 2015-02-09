@@ -8,6 +8,7 @@ contests = {}
 class Contest
   # Construct object.
   constructor: (@words, user) ->
+    @winner = ''
     @id = uuid.v4()
     @created = Date.now()
     @state = 'Waiting'

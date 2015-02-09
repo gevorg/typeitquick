@@ -13,7 +13,7 @@ angular.module('TypeItQuick')
                 word = word.trim().toLowerCase();
 
                 // Is it correct!
-                return todoWord == word;
+                return todoWord == word || word.indexOf(todoWord) === 0;
             },
             // Checking word.
             checkWord: function(progress, words, word) {
@@ -25,7 +25,21 @@ angular.module('TypeItQuick')
                 word = word.trim().toLowerCase();
 
                 // Is it correct!
-                return todoWord.indexOf(word) === 0;
+                return todoWord.indexOf(word) === 0 || word.indexOf(todoWord) === 0;
+            },
+            // Clear word.
+            clearWord: function(input) {
+                // Tokenize.
+                var tokens = input.trim().split(' ');
+
+                if ( tokens.length > 1 ) {
+                    tokens.splice(0, 1);
+
+                    // New string.
+                    return tokens.join(' ');
+                } else {
+                    return '';
+                }
             },
             // Extracting words from text.
             'words': function(text) {

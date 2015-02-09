@@ -1,7 +1,7 @@
 <div>
     <div class="box super-shadow">
         <div class="sub-header">
-            Share this url to invite others!
+            Share this page url to invite others!
         </div>
         <div class="form-group unselectable">
             <div ng-repeat="user in users track by $index"
@@ -22,6 +22,6 @@
         </div>
     </div>
     <div class="text-center form-group" ng-if="user.creator">
-        <button type="button" class="btn btn-lg btn-success" ng-disabled="processing" ng-click="start()">Start Typing!</button>
+        <button type="button" class="btn btn-lg btn-success" ng-disabled="processing || (users.length < 2)" ng-click="start()">Start Typing!</button>
     </div>
 </div>

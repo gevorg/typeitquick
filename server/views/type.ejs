@@ -1,6 +1,11 @@
 <div class="box super-shadow">
-    <div class="sub-header">
+    <div class="sub-header" ng-if="!winner">
         Start typing now!
+    </div>
+    <div class="sub-header" ng-if="winner">
+        <span class="glyphicon glyphicon glyphicon-star"></span>
+        <b>{{ winner }}</b> won this contest
+        <span class="glyphicon glyphicon glyphicon-star"></span>
     </div>
     <div class="form-group unselectable">
         <div ng-repeat="user in users track by $index">
@@ -15,6 +20,9 @@
         <span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span>{{ word }}</span> </span>
     </div>
     <div class="form-group">
-        <input ng-disabled="wordsDone()" ng-keyup="checkWord($event)" type="text" ng-model="word" ng-class="inputClass()" class="form-control input-lg" placeholder="Type words here...">
+        <input ng-show="!wordsDone()" ng-keyup="checkWord($event)" type="text" ng-model="word" ng-class="inputClass()" id="the-input" class="form-control input-lg" placeholder="Type words here...">
     </div>
+</div>
+<div class="form-group text-center">
+    <a ng-show="wordsDone()" class="btn btn-success btn-lg" href="#/">Start Another Contest!</a>
 </div>

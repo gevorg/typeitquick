@@ -5,6 +5,9 @@ angular.module('TypeItQuick').
             // Init word.
             $scope.word = '';
 
+            // Done.
+            $scope.winner = '';
+
             // Init contest data.
             function initData(result) {
                 // Fetch index.
@@ -16,20 +19,33 @@ angular.module('TypeItQuick').
                 // Set users.
                 $scope.users = result.users;
 
+                // Set winner.
+                $scope.winner = result.winner;
+
                 // Extract words.
                 $scope.words = contestService.words(result.words);
 
                 // Setup socket.
                 ioService.setup();
 
-                // Focus input.
-                $('input').focus();
+                // Disable copy paste.
+                $('#the-input').bind("cut copy paste",function(e) {
+                    e.preventDefault();
+                    this.focus();
+                });
 
                 // Setup progress handlers.
                 ioService.on('word', function(data) {
                     $scope.$apply(function () {
                         // User progress.
                         $scope.users[data.user].progress = data.progress;
+                    });
+                });
+
+                // Setup done handler.
+                ioService.on('done', function(data) {
+                    $scope.$apply(function () {
+                        $scope.winner = data.winner;
                     });
                 });
             }
@@ -61,7 +77,7 @@ angular.module('TypeItQuick').
 
             // Typing completed.
             $scope.wordsDone = function() {
-                return $scope.user && $scope.user.progress === $scope.words.length;
+                return $scope.winner.length;
             };
 
             // Check word.
@@ -70,7 +86,7 @@ angular.module('TypeItQuick').
                     ($event.which === 13 || $event.which === 32)) {
                     if (contestService.wordDone($scope.user.progress, $scope.words, $scope.word)) {
                         // Clear input.
-                        $scope.word = '';
+                        $scope.word = contestService.clearWord($scope.word);
 
                         // To next input.
                         $scope.user.progress ++;
@@ -78,9 +94,10 @@ angular.module('TypeItQuick').
                         // Word done.
                         ioService.emit('word', { user: $scope.userId, progress: $scope.user.progress });
 
-                        // Done text!
+                        // Done.
                         if ($scope.user.progress === $scope.words.length) {
-                            // Done text!
+                            $scope.winner = $scope.user.name;
+                            ioService.emit('done', { winner: $scope.user.name } );
                         }
                     }
                 }

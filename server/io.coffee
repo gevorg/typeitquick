@@ -9,6 +9,12 @@ class IO
 
     # Default handlers.
     @namespace.on 'connection', (socket) =>
+      # Done handler.
+      socket.on 'done', (data) =>
+        @contest.state = 'Done'
+        @contest.winner = data.winner
+        socket.broadcast.emit 'done', data
+
       # Setup message handler.
       socket.on 'msg', (data) =>
         @namespace.emit 'msg', data

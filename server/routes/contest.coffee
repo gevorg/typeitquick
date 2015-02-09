@@ -35,9 +35,9 @@ module.exports = (app, io) ->
       contest = contestService.get req.body.id
 
       # If it is valid.
-      if contest && contest.state == 'Type'
+      if contest && (contest.state == 'Type' || contest.state == 'Done')
         if req.session.hasOwnProperty contest.id
-          res.json { user: req.session[contest.id], users: contest.users, words: contest.words }
+          res.json { user: req.session[contest.id], users: contest.users, words: contest.words, winner: contest.winner }
         else
           (res.status 401).send 'Need to join!'
       else
