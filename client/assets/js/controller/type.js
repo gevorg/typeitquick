@@ -31,8 +31,10 @@ angular.module('TypeItQuick').
                 // Disable copy paste.
                 $('#the-input').bind("cut copy paste",function(e) {
                     e.preventDefault();
-                    this.focus();
                 });
+
+                // Focus.
+                $('#the-input').focus();
 
                 // Setup progress handlers.
                 ioService.on('word', function(data) {
