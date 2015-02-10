@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: http://www.typeitquick/sitemap.xml
+Sitemap: http://www.typeitquick.com/sitemap.xml
