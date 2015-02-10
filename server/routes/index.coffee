@@ -11,6 +11,12 @@ fs = require 'fs'
 iconPath = path.resolve __dirname + '/../../client/assets/favicon.ico'
 iconStat = fs.statSync iconPath
 
+# Sitemap.xml.
+sitemap = path.resolve __dirname + '/../../client/assets/sitemap.xml'
+
+# Robots.txt.
+robots = path.resolve __dirname + '/../../client/assets/robots.txt'
+
 # Export routes.
 module.exports = (app, io) ->
   # Contest routes.
@@ -23,12 +29,20 @@ module.exports = (app, io) ->
       siteUrl: configs.SITE_URL
     }
 
-  # Favicon.
+  # Robots.txt.
   app.get '/favicon.ico', (req, res) ->
-    # Send icon file.
-    res.sendFile iconPath, {
+    # Send file.
+    res.sendFile robots, {
       headers: {
-        'Content-Type': 'image/x-icon',
-        'Content-Length': iconStat.size
+        'Content-Type': 'text/plain',
+      }
+    }
+
+  # Sitemap.xml.
+  app.get '/sitemap.xml', (req, res) ->
+    # Send file.
+    res.sendFile sitemap, {
+      headers: {
+        'Content-Type': 'text/xml',
       }
     }
