@@ -29,12 +29,13 @@ module.exports = (app, io) ->
       siteUrl: configs.SITE_URL
     }
 
-  # Robots.txt.
+  # Favicon.
   app.get '/favicon.ico', (req, res) ->
-    # Send file.
-    res.sendFile robots, {
+    # Send icon file.
+    res.sendFile iconPath, {
       headers: {
-        'Content-Type': 'text/plain',
+        'Content-Type': 'image/x-icon',
+        'Content-Length': iconStat.size
       }
     }
 
@@ -44,5 +45,14 @@ module.exports = (app, io) ->
     res.sendFile sitemap, {
       headers: {
         'Content-Type': 'text/xml',
+      }
+    }
+
+  # Robots.txt.
+  app.get '/robots.txt', (req, res) ->
+    # Send file.
+    res.sendFile robots, {
+      headers: {
+        'Content-Type': 'text/plain',
       }
     }
