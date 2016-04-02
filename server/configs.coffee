@@ -1,6 +1,6 @@
 # Global configurations go here.
 module.exports =
-  PORT: process.env.PORT || 5000 # Web server port.
+  PORT: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 5000 # Web server port.
   SITE_URL: process.env.SITE_URL || 'http://localhost:5000/'
   # Captcha configs.
   CAPTCHA:
