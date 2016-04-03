@@ -5,8 +5,8 @@
     "url": "http://github.com/gevorg/typeitquick.git"
   },
   "scripts": {
-    "heroku-postbuild": "bower cache clean && bower install",
-    "start": "node web.js"
+    "start": "node web.js",
+    "postinstall": "bower cache clean && bower install"
   },
   "dependencies": {
     "express": "~4.8.4",
