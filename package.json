@@ -5,7 +5,6 @@
     "url": "http://github.com/gevorg/typeitquick.git"
   },
   "scripts": {
-    "postinstall": "node ./node_modules/bower/bin/bower cache clean && node ./node_modules/bower/bin/bower install",
     "start": "node web.js"
   },
   "dependencies": {
@@ -17,7 +16,6 @@
     "express-session": "~1.7.6",
     "ejs": "~1.0.0",
     "coffee-script": "~1.7.1",
-    "bower": "~1.3.12",
     "node-uuid": "~1.4.2",
     "request": "~2.53.0",
     "socket.io": "~1.3.3"

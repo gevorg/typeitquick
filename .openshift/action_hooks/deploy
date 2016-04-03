@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+HOME=$HOME/app-root/runtime
+cd ~/repo
+npm install bower
+./node_modules/.bin/bower cache clean
+./node_modules/.bin/bower install
