@@ -11,9 +11,6 @@ fs = require 'fs'
 iconPath = path.resolve __dirname + '/../../client/assets/favicon.ico'
 iconStat = fs.statSync iconPath
 
-# Sitemap.xml.
-sitemap = path.resolve __dirname + '/../../client/assets/sitemap.xml'
-
 # Robots.txt.
 robots = path.resolve __dirname + '/../../client/assets/robots.txt'
 
