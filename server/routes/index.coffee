@@ -39,15 +39,6 @@ module.exports = (app, io) ->
       }
     }
 
-  # Sitemap.xml.
-  app.get '/sitemap.xml', (req, res) ->
-    # Send file.
-    res.sendFile sitemap, {
-      headers: {
-        'Content-Type': 'text/xml',
-      }
-    }
-
   # Robots.txt.
   app.get '/robots.txt', (req, res) ->
     # Send file.
