@@ -1,14 +1,14 @@
 // IO service for TypeItQuick app.
 angular.module('TypeItQuick')
-    .factory('ioService', ['$window', '$routeParams', function($window, $routeParams) {
+    .factory('ioService', ['$window', function($window) {
         // Client socket.
         var socket;
 
         // Return service object.
         return {
-            setup: function() {
+            setup: function(id) {
                 // Setup socket.
-                socket = io($window.siteUrl + $routeParams.contestId);
+                socket = io($window.siteUrl + id);
             },
             on: function(event, handler) {
                 // Setup handler.

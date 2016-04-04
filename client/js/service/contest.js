@@ -22,7 +22,7 @@ angular.module('TypeItQuick')
                 todoWord = todoWord.toLowerCase();
 
                 // Typing part.
-                word = word.trim().toLowerCase();
+                word = word.toLowerCase();
 
                 // Is it correct!
                 return todoWord.indexOf(word) === 0 || word.indexOf(todoWord) === 0;
@@ -42,7 +42,7 @@ angular.module('TypeItQuick')
                 }
             },
             // Extracting words from text.
-            'words': function(text) {
+            words: function(text) {
                 // Prepare word array.
                 var words = text.trim().replace(/\t/g, ' ').replace(/\n/g, ' ').split(' ');
                 var result = [];

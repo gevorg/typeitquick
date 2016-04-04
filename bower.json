@@ -5,12 +5,11 @@
         "**/*.txt"
     ],
     "dependencies": {
-        "bootstrap": "*",
         "angular": "*",
-        "angular-route": "*",
-        "angular-bootstrap": "*"
+        "jquery": "*",
+        "angular-socialshare": "*"
     },
     "resolutions":{
-        "angular": "~1.3.11"
+        "angular": "~1.5.3"
     }
 }

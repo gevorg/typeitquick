@@ -1,65 +1,99 @@
 <!doctype html>
 <html ng-app="TypeItQuick">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=600">
+	<head>
+	    <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="keywords" content="online, type, quick, contest" />
+		<meta name="description" content="Online typing contest!"/>
+		<meta name="viewport" content="width=310">
 
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+		<title>Type It Quick - Online Typing Contest!</title>
 
-    <title>Type It Quick - Online Typing Contest</title>
+		<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+		<link href="/css/styles.css" rel="stylesheet">
+		<link rel='stylesheet' href="/components/angular-socialshare/angular-socialshare.min.css">
 
-    <meta name="keywords" content="online, type, quick, contest" />
-    <meta name="description" content="Start your own online typing contest!"/>
 
-    <link href="/components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/css/common.css" rel="stylesheet">
+		<script src="http://platform.twitter.com/widgets.js"></script>
 
-    <script src="/components/angular/angular.min.js"></script>
-    <script src="/components/jquery/dist/jquery.min.js"></script>
-    <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="/components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="/components/angular-route/angular-route.min.js"></script>
+		<script src="/components/jquery/dist/jquery.min.js"></script>
+		<script src="/components/angular/angular.min.js"></script>
+		<script src="/components/angular-socialshare/angular-socialshare.min.js"></script>
+		<script src="http://platform.twitter.com/widgets.js"></script>
 
-    <script src="/socket.io/socket.io.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 
-    <script src="/assets/js/app.js"></script>
-    <script src="/assets/js/service/contest.js"></script>
-    <script src="/assets/js/service/captcha.js"></script>
-    <script src="/assets/js/service/io.js"></script>
-    <script src="/assets/js/controller/start.js"></script>
-    <script src="/assets/js/controller/chat.js"></script>
-    <script src="/assets/js/controller/join.js"></script>
-    <script src="/assets/js/controller/type.js"></script>
+		<script src="/js/app.js"></script>
+		<script src="/js/service/captcha.js"></script>
+		<script src="/js/service/contest.js"></script>
+		<script src="/js/service/io.js"></script>
+		<script src="/js/controller/game.js"></script>
 
-    <script type="text/javascript">
-        // Script load callback.
-        var recaptchaLoaded = function() {
-            // Connecting to controller.
-            $(window).trigger('recaptchaLoaded');
-        };
+		<script type="text/javascript">
+			// Script load callback.
+			var recaptchaLoaded = function() {
+				// Connecting to controller.
+				$(window).trigger('recaptchaLoaded');
+			};
 
-        // Captcha key.
-        window.captchaKey = '<%= captchaKey %>';
+			// Captcha key.
+			window.captchaKey = '<%= captchaKey %>';
 
-        // Site url.
-        window.siteUrl = '<%= siteUrl %>';
-    </script>
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			// Site url.
+			window.siteUrl = '<%= siteUrl %>';
+		</script>
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+					m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-48892246-4', 'auto');
-        ga('send', 'pageview');
-
-    </script>
-</head>
-<body>
-<div class="container">
-    <a class="header text-center" href="#/">Type It Quick</a>
-    <div ng-view></div>
-</div>
-</body>
+			ga('create', 'UA-48892246-4', 'auto');
+			ga('send', 'pageview');
+		</script>
+	</head>
+	<body ng-controller="GameCtrl">
+		<header>
+			<h1>Type It Quick!</h1>
+			<a href="https://github.com/gevorg/typeitquick"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
+		</header>
+		<div class="user-div" ng-repeat="u in users">
+			<div class="user-progress" style="width: {{progress(u)}}">
+				&nbsp;
+			</div>
+			<div class="user-text">
+				{{ u.id == user.id ? 'you' : 'guest' }}
+			</div>
+		</div>
+		<div id="theTimer">
+			<span ng-if="!joined">Complete the CAPTCHA below to start!</span>
+			<span ng-if="joined && !started">Contest starts {{ remaining > 1 ? "from " + remaining + " seconds" : "now" }}!</span>
+			<span ng-if="started && !ended">Contest ends {{ remaining > 1 ? "in " + remaining + " seconds" : "now" }}!</span>
+			<span ng-if="ended">
+				Congrats you typed {{ user.progress }} words in {{ duration - remaining }} seconds,
+				<span ng-if="!winner"> but you failed to finish contest.</span>
+				<span ng-if="winner && winner == user.id">and you won the contest!</span>
+				<span ng-if="winner && winner != user.id"> but another user won the contest!</span>
+			</span>
+		</div>
+		<div class="relative">
+			<div id="theLayer" ng-if="!joined"></div>
+			<div id="theText" class="un-selectable">
+				<span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span>{{ word }}</span> </span>
+			</div>
+		</div>
+		<footer>
+			<div id="captcha" ng-if="!joined"></div>
+			<div class="input-div" ng-show="joined">
+				<input ng-show="!wordsDone()" ng-disabled="!started || ended" ng-keyup="checkWord($event)" ng-model="word"
+					   ng-class="inputClass()" type="text" id="theInput" placeholder="Type words here..." autofocus/>
+			</div>
+			<div class="links" ng-show="ended">
+				<a href="/">try again</a>
+				<div>or</div>
+				<a twitter  data-lang="en" data-count='horizontal' data-url='<%= siteUrl %>' data-size="medium"
+				   data-text='I just typed {{ user.progress }} words in {{ duration - remaining }} seconds on TypeItQuick.com' ></a>
+			</div>
+		</footer>
+	</body>
 </html>

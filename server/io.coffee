@@ -13,23 +13,17 @@ class IO
       socket.on 'done', (data) =>
         @contest.state = 'Done'
         @contest.winner = data.winner
-        socket.broadcast.emit 'done', data
-
-      # Setup message handler.
-      socket.on 'msg', (data) =>
-        @namespace.emit 'msg', data
+        
+        @namespace.emit 'done', data
 
       # Word handler.
       socket.on 'word', (data) =>
-        @contest.users[data.user].progress = data.progress
-        socket.broadcast.emit 'word', data
+        for user in @contest.users
+          if user.id is data.user
+            user.progress = data.progress
+            break
 
-      # Setup type handler.
-      socket.on 'type', (data) =>
-        @contest.state = 'Type'
-        @contest.type = data.date
-
-        @namespace.emit 'type', data
+        @namespace.emit 'word', data
 
     # Add to namespace object.
     namespaces[@contest.id] = @namespace

@@ -1,7 +1,6 @@
 module.exports = (app, express, io) ->
   # Those were part of express framework.
   bodyParser = require 'body-parser'
-  flash = require 'connect-flash'
   cookieParser = require 'cookie-parser'
   session = require 'express-session'
 
@@ -21,16 +20,9 @@ module.exports = (app, express, io) ->
     saveUninitialized: true
   })
 
-  ## Flash setup.
-  app.use flash()
-
   ## Asset provider.
-  assets = express.static __dirname + '/../client/assets'
-  app.use '/assets', assets
-
-  ## Bower components.
-  bowerFiles = express.static __dirname + '/../client/components'
-  app.use '/components', bowerFiles
+  assets = express.static __dirname + '/../client'
+  app.use '/', assets
 
   ## View engine.
   app.set 'view engine', 'ejs'
@@ -40,3 +32,6 @@ module.exports = (app, express, io) ->
 
   # Setup routes.
   (require './routes') app, io
+
+  # Setup contest.
+  (require './contest.coffee').setup()
