@@ -11,9 +11,7 @@ class IO
     @namespace.on 'connection', (socket) =>
       # Done handler.
       socket.on 'done', (data) =>
-        @contest.state = 'Done'
         @contest.winner = data.winner
-        
         @namespace.emit 'done', data
 
       # Word handler.
