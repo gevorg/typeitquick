@@ -88,7 +88,7 @@
 				<input ng-show="!wordsDone()" ng-disabled="!started || ended" ng-keyup="checkWord($event)" ng-model="word"
 					   ng-class="inputClass()" type="text" id="theInput" placeholder="Type words here..." autofocus/>
 			</div>
-			<div class="links" ng-show="ended">
+			<div class="links" ng-if="ended">
 				<a href="/">try again</a>
 				<div>or</div>
 				<a twitter  data-lang="en" data-count='horizontal' data-url='<%= siteUrl %>' data-size="medium"
