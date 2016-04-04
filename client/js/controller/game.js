@@ -170,7 +170,7 @@ angular.module('TypeItQuick').controller(
 
         // Progress info.
         $scope.progress = function(user) {
-            return Math.floor(user.progress * 100 / $scope.words.length) + '%';
+            return Math.floor(user.progress * 100 / $scope.words.length);
         };
     }
 ]);
