@@ -7,6 +7,10 @@ contest = require './contest'
 # Request module.
 request = require 'request'
 
+# Date formatting.
+dateFormat = require 'dateformat'
+now = new Date()
+
 # Sitemap.
 sitemap = (require 'sitemap').createSitemap ({
   hostname: configs.SITE_URL,
@@ -16,7 +20,7 @@ sitemap = (require 'sitemap').createSitemap ({
       url: '/'
       changefreq: 'weekly'
       priority: 1
-      lastmodISO: (new Date()).toISOString() + "+" + ((new Date()).getTimezoneOffset() / 60) + ":00"
+      lastmodISO: dateFormat(now, "isoDateTime")
     }
   ]
 });
