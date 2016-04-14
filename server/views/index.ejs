@@ -55,6 +55,7 @@
 	<body ng-controller="GameCtrl">
 		<header>
 			<h1>Type It Quick!</h1>
+			<p>join the contest and try your typing skills</p>
 			<a href="https://github.com/gevorg/typeitquick"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png"></a>
 		</header>
 		<div class="user-div" ng-repeat="u in users">
@@ -66,14 +67,14 @@
 			</div>
 		</div>
 		<div id="theTimer">
-			<span ng-if="!joined">Complete the CAPTCHA below to start!</span>
+			<span ng-if="!joined">are you a robot?</span>
 			<span ng-if="joined && !started">Contest starts {{ remaining > 1 ? "from " + remaining + " seconds" : "now" }}!</span>
 			<span ng-if="started && !ended">Contest ends {{ remaining > 1 ? "in " + remaining + " seconds" : "now" }}!</span>
 			<span ng-if="ended">
-				Congrats you typed {{ user.progress }} words in {{ duration - remaining }} seconds,
-				<span ng-if="!winner"> but you failed to finish contest.</span>
-				<span ng-if="winner && winner == user.id">and you won the contest!</span>
-				<span ng-if="winner && winner != user.id"> but another user won the contest!</span>
+				<p>Congrats you typed {{ user.progress }} {{ user.progress == 1 ? 'word' : 'words' }} in {{ duration - remaining }} seconds</p>
+				<p ng-if="!winner" class="kinda-winner">Don't you want to improve your result?</p>
+				<p ng-if="winner && winner == user.id" class="winner">You are the winner :)</p>
+				<p ng-if="winner && winner != user.id" class="loser">Unfortunately you lost :( </p>
 			</span>
 		</div>
 		<div class="relative">

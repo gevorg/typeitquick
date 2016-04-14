@@ -7,8 +7,31 @@ contest = require './contest'
 # Request module.
 request = require 'request'
 
+# Sitemap.
+sitemap = (require 'sitemap').createSitemap ({
+  hostname: configs.SITE_URL,
+  cacheTime: 600000,        # 600 sec - cache purge period
+  urls: [
+    {
+      url: '/'
+      changefreq: 'weekly'
+      priority: 1
+      lastmodISO: new Date().toISOString()
+    }
+  ]
+});
+
 # Export routes.
 module.exports = (app, io) ->
+  # Sitemap added.
+  app.get '/sitemap.xml', (req, res) ->
+    sitemap.toXML (err, xml) ->
+      if err
+        return res.status(500).end()
+
+      res.header 'Content-Type', 'application/xml'
+      res.send xml
+
   # Current contest.
   app.get '/current', (req, res) ->
     # Get current contest.
