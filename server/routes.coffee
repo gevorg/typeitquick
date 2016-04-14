@@ -20,7 +20,7 @@ sitemap = (require 'sitemap').createSitemap ({
       url: '/'
       changefreq: 'weekly'
       priority: 1
-      lastmodISO: dateFormat(now, "isoDateTime")
+      lastmodISO: dateFormat(now, "yyyy-MM-dd HH:mm:ss")
     }
   ]
 });
