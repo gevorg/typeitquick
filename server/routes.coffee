@@ -9,7 +9,6 @@ request = require 'request'
 
 # Date formatting.
 dateFormat = require 'dateformat'
-now = new Date()
 
 # Sitemap.
 sitemap = (require 'sitemap').createSitemap ({
@@ -20,7 +19,7 @@ sitemap = (require 'sitemap').createSitemap ({
       url: '/'
       changefreq: 'weekly'
       priority: 1
-      lastmodISO: dateFormat(now, "yyyy-MM-dd")
+      lastmodISO: dateFormat(new Date(), "yyyy-MM-dd")
     }
   ]
 });
