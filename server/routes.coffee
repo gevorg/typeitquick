@@ -16,7 +16,7 @@ sitemap = (require 'sitemap').createSitemap ({
       url: '/'
       changefreq: 'weekly'
       priority: 1
-      lastmodISO: new Date().toISOString() "+" + (new Date().getTimezoneOffset() / 60) + ":00"
+      lastmodISO: (new Date()).toISOString() + "+" + ((new Date()).getTimezoneOffset() / 60) + ":00"
     }
   ]
 });
