@@ -3,7 +3,7 @@ body {
 	-moz-box-shadow: 0px 0px 21px -2px rgba(0,0,150,0.75);
 	box-shadow: 0px 0px 21px -2px rgba(0,0,150,0.75);
 	margin: 0 auto;
-	max-width: 600px;
+	max-width: 550px;
 	min-width: 310px;
 	font-family: Verdana;
 }
@@ -13,7 +13,6 @@ header {
 	padding: 20px;
 	background-color: rgba(0,0,150,0.55);
 	color: white;
-	text-align: center;
 	font-size: 25px;
 	position: relative;
 }
@@ -22,6 +21,10 @@ header h1 {
 	font-style: italic;
 	font-weight: bold;
 	font-size: 50px;
+}
+
+header ul {
+	margin: 0 auto;
 }
 
 .relative {
