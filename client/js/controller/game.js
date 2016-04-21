@@ -16,6 +16,33 @@ angular.module('TypeItQuick').controller(
         $scope.started = false;
         $scope.ended = false;
 
+        // Get text.
+        $scope.text = function () {
+            var text = '';
+
+            if (!$scope.joined) {
+                text = 'You need to complete the CAPTCHA below';
+            } else if (!$scope.started) {
+                text = 'Contest starts ' +
+                    ($scope.remaining > 1 ? "from " + $scope.remaining + " seconds" : "now") + "!";
+            } else if (!$scope.ended) {
+                text = 'Contest ends ' +
+                    ($scope.remaining > 1 ? "in " + $scope.remaining + " seconds" : "now") + '!';
+            } else {
+                text = 'Congrats you typed ' + $scope.user.progress + ($scope.user.progress == 1 ? ' word' : ' words') +
+                    ' in '  + ($scope.duration - $scope.remaining) + ' seconds';
+                if (!$scope.winner) {
+                    text += ', but you failed to finish the text :(';
+                } else if ($scope.winner == $scope.user.id) {
+                    text += ' and you won the contest :)';
+                } else {
+                    text += ', but another player won :(';
+                }
+            }
+
+            return text;
+        };
+
         // Users.
         $scope.users = [];
 
@@ -172,5 +199,10 @@ angular.module('TypeItQuick').controller(
         $scope.progress = function(user) {
             return Math.floor(user.progress * 100 / $scope.words.length);
         };
+
+        // Get user name.
+        $scope.userName = function (u) {
+            return u.id == $scope.user.id ? 'you' : 'guest';
+        }
     }
 ]);

@@ -67,25 +67,16 @@
 			<div class="user-progress" ng-attr-style="width: {{progress(u)}}%">
 				&nbsp;
 			</div>
-			<div class="user-text">
-				{{ u.id == user.id ? 'you' : 'guest' }}
+			<div class="user-text" ng-bind="userName(u)">
 			</div>
 		</div>
 		<div id="theTimer">
-			<span ng-if="!joined">You need to complete the CAPTCHA below</span>
-			<span ng-if="joined && !started">Contest starts {{ remaining > 1 ? "from " + remaining + " seconds" : "now" }}!</span>
-			<span ng-if="started && !ended">Contest ends {{ remaining > 1 ? "in " + remaining + " seconds" : "now" }}!</span>
-			<span ng-if="ended">
-				<p>Congrats you typed {{ user.progress }} {{ user.progress == 1 ? 'word' : 'words' }} in {{ duration - remaining }} seconds</p>
-				<p ng-if="!winner" class="kinda-winner">Don't you want to improve your result?</p>
-				<p ng-if="winner && winner == user.id" class="winner">You are the winner :)</p>
-				<p ng-if="winner && winner != user.id" class="loser">Unfortunately you lost :( </p>
-			</span>
+			<span ng-bind="text()"></span>
 		</div>
 		<div class="relative">
 			<div id="theLayer" ng-if="!joined"></div>
 			<div id="theText" class="un-selectable">
-				<span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span>{{ word }}</span> </span>
+				<span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span ng-bind="word"></span> </span>
 			</div>
 		</div>
 		<footer>

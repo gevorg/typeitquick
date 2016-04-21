@@ -120,15 +120,3 @@ footer #captcha {
 	margin-top: 15px;
 	text-align: center;
 }
-
-.winner {
-	color: green;
-}
-
-.loser {
-	color: red;
-}
-
-.kinda-winner {
-	color: orange;
-}
