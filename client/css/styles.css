@@ -1,30 +1,29 @@
 body {
+	margin: 0;
+	padding: 0;
+	font-family: Verdana, sans-serif;
+}
+
+.content {
 	-webkit-box-shadow: 0 0 21px -2px rgba(0,0,150,0.75);
 	-moz-box-shadow: 0 0 21px -2px rgba(0,0,150,0.75);
 	box-shadow: 0 0 21px -2px rgba(0,0,150,0.75);
 	margin: 0 auto;
-	max-width: 600px;
+	max-width: 768px;
 	min-width: 310px;
-	font-family: Verdana, sans-serif;
 }
 
 header {
-	font-family: "Comic Sans MS", cursive, sans-serif;	
-	padding: 20px;
-	background-color: rgba(0,0,150,0.55);
-	color: white;
-	font-size: 25px;
 	position: relative;
+	padding: 20px;
+	color: white;
+	background-color: rgba(0,0,150,0.55);
+	font-size: 20px;
 }
 
 header h1 {
-	font-style: italic;
-	font-weight: bold;
-	font-size: 50px;
-}
-
-header ul {
-	margin: 0 auto;
+	font-size: 54px;
+	margin: 10px 0;
 }
 
 .relative {
