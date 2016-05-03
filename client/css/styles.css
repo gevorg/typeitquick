@@ -110,7 +110,7 @@ footer #captcha {
 }
 
 .user-player {
-	padding: 5px;
+	padding: 7px 5px 3px;
 	text-align: right;
 }
 
@@ -178,7 +178,6 @@ footer #captcha {
 
 	/* Add a drop shadow */
 	-webkit-box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
 	box-shadow: 0 .15em .23em 0 rgba(0, 0, 0, 0.5);
 
 	pointer-events: auto;

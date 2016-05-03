@@ -9,19 +9,22 @@ class IO
 
     # Default handlers.
     @namespace.on 'connection', (socket) =>
-      # Done handler.
-      socket.on 'done', (data) =>
-        @contest.winner = data.winner
-        socket.broadcast.emit 'done', data
-
       # Word handler.
       socket.on 'word', (data) =>
-        for user in @contest.users
-          if user.id is data.user
-            user.progress = data.progress
-            break
+        if not @contest.winner
+          # Update user's progress.
+          for user in @contest.users
+            if user.id is data.user
+              # Update progress.
+              user.progress = data.progress
 
-        @namespace.emit 'word', data
+              # Winner check.
+              if user.progress is @contest.words.length
+                @contest.winner = user.id
+
+              # Broadcast word done.
+              socket.broadcast.emit 'word', data
+              break
 
     # Add to namespace object.
     namespaces[@contest.id] = @namespace

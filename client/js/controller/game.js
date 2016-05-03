@@ -13,25 +13,17 @@ angular.module('TypeItQuick').controller(
 
         // Set empty winner.
         $scope.winner = null;
-
-        // Set joined and started.
-        $scope.joined = false;
-        $scope.started = false;
-        $scope.ended = false;
-
+        
         // Get text.
         $scope.text = function () {
             var text = '';
 
             if ($scope.state == 'guest' || $scope.state == 'waiting') {
-                text = 'Contest starts ' +
-                    ($scope.remaining > 1 ? "from " + $scope.remaining + " seconds" : "now") + "!";
+                text = 'Contest starts ' + ($scope.remaining > 1 ? "from " + $scope.remaining + " seconds" : "now") + "!";
             } else if ($scope.state == 'playing') {
-                text = 'Contest ends ' +
-                    ($scope.remaining > 1 ? "in " + $scope.remaining + " seconds" : "now") + '!';
+                text = 'Contest ends ' + ($scope.remaining > 1 ? "in " + $scope.remaining + " seconds" : "now") + '!';
             } else {
-                text = 'Congrats you typed ' + $scope.user.progress + ($scope.user.progress == 1 ? ' word' : ' words') +
-                    ' in '  + ($scope.duration - $scope.remaining) + ' seconds';
+                text = 'Congrats you typed ' + $scope.user.progress + ($scope.user.progress == 1 ? ' word' : ' words') + ' in '  + ($scope.duration - $scope.remaining) + ' seconds';
                 if (!$scope.winner) {
                     text += ', but you failed to finish the text :(';
                 } else if ($scope.winner == $scope.user.id) {
@@ -65,17 +57,15 @@ angular.module('TypeItQuick').controller(
                     angular.forEach($scope.users, function(user) {
                         if (user.id == data.user) {
                             user.progress = data.progress;
+
+                            // Check for winner.
+                            if (user.progress == $scope.words.length) {
+                                $scope.winner = user.id;
+                                $scope.state = 'done';
+                                $scope.word = '';
+                            }
                         }
                     });
-                });
-            });
-
-            // Setup done handler.
-            ioService.on('done', function(data) {
-                $scope.$apply(function () {
-                    $scope.winner = data.winner;
-                    $scope.state = 'done';
-                    $scope.word = '';
                 });
             });
         }
@@ -166,8 +156,6 @@ angular.module('TypeItQuick').controller(
                     if ($scope.user.progress === $scope.words.length) {
                         $scope.winner = $scope.user.id;
                         $scope.state = 'done';
-
-                        ioService.emit('done', { winner: $scope.user.id } );
                     }
                 }
             }
