@@ -2,6 +2,39 @@
 
 Online typing contest!
 
+## Installation
+
+Via git (or downloaded tarball):
+
+```bash
+$ git clone git://github.com/gevorg/typeitquick.git
+```
+
+## Running
+
+```bash
+$ cd typeitquick
+$ npm install
+$ npm start
+
+> node web.js
+
+Listening on 5000
+...
+```
+
+## Configuration
+There are few environment variables that you must set
+
+- **PORT** - server port to run, by default it is 5000
+- **SITE_URL** - website url, by default it is 'http://localhost:5000/'
+- **CAPTCHA_APP_KEY** - application key used by captcha
+- **CAPTCHA_APP_SEC** - application secret used by captcha
+
+## Dependencies
+ - For server look [package.json](https://github.com/gevorg/typeitquick/blob/master/package.json)
+ - For client look [bower.json](https://github.com/gevorg/typeitquick/blob/master/bower.json)
+
 ## License
 
 The MIT License (MIT)
