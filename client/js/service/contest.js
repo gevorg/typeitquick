@@ -1,10 +1,13 @@
 // Contest service for TypeItQuick app.
 angular.module('TypeItQuick')
     .factory('contestService', [function() {
+        // Words of contents.
+        var words = [];
+        
         // Return service object.
         return {
             // Word done.
-            wordDone: function(progress, words, word) {
+            wordDone: function(progress, word) {
                 // Comparison part.
                 var todoWord = words[progress];
                 todoWord = todoWord.toLowerCase();
@@ -15,8 +18,9 @@ angular.module('TypeItQuick')
                 // Is it correct!
                 return todoWord == word || word.indexOf(todoWord) === 0;
             },
+
             // Checking word.
-            checkWord: function(progress, words, word) {
+            checkWord: function(progress, word) {
                 // Comparison part.
                 var todoWord = words[progress];
                 todoWord = todoWord.toLowerCase();
@@ -27,6 +31,7 @@ angular.module('TypeItQuick')
                 // Is it correct!
                 return todoWord.indexOf(word) === 0 || word.indexOf(todoWord) === 0;
             },
+
             // Clear word.
             clearWord: function(input) {
                 // Tokenize.
@@ -41,22 +46,14 @@ angular.module('TypeItQuick')
                     return '';
                 }
             },
-            // Extracting words from text.
-            words: function(text) {
-                // Prepare word array.
-                var words = text.trim().replace(/\t/g, ' ').replace(/\n/g, ' ').split(' ');
-                var result = [];
 
-                // Filter empty words.
-                angular.forEach(words, function(word) {
-                    // Skipping bad words.
-                    if (word.trim().length) {
-                        result.push(word);
-                    }
-                });
+            // Set words.
+            words: function(input) {
+                if (input) {
+                    words = input;
+                }
 
-                // Return words.
-                return result;
+                return words;
             }
         }
     }]);

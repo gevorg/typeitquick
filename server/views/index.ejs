@@ -12,10 +12,6 @@
 
 	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
 	<link href="/css/styles.css" rel="stylesheet">
-	<link rel='stylesheet' href="/components/angular-socialshare/angular-socialshare.min.css">
-
-
-	<script src="http://platform.twitter.com/widgets.js"></script>
 
 	<script src="/components/jquery/dist/jquery.min.js"></script>
 	<script src="/components/angular/angular.min.js"></script>
@@ -64,29 +60,25 @@
 		<div class="user-progress" ng-attr-style="width: {{progress(u)}}%">
 			&nbsp;
 		</div>
-		<div class="user-text" ng-bind="userName(u)">
+		<div class="user-player">
+			<img ng-attr-src="/img/{{getPlayer(u)}}.png" ng-attr-title="{{getPlayer(u)}}" />
 		</div>
 	</div>
 	<div id="theTimer">
 		<span ng-bind="text()"></span>
 	</div>
 	<div class="relative">
-		<div id="theLayer" ng-if="!joined"></div>
+		<div id="theLayer" ng-if="state == 'guest'"></div>
 		<div id="theText" class="un-selectable">
 			<span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span ng-bind="word"></span> </span>
 		</div>
 	</div>
 	<footer>
-		<div id="captcha" ng-if="!joined"></div>
-		<div class="input-div" ng-show="joined">
-			<input ng-show="!wordsDone()" ng-disabled="!started || ended" ng-keyup="checkWord($event)" ng-model="word"
-				   ng-class="inputClass()" type="text" id="theInput" placeholder="Type words here..." autofocus/>
-		</div>
-		<div class="links" ng-if="ended">
-			<a href="/">try again</a>
-			<div>or</div>
-			<a twitter  data-lang="en" data-count='horizontal' data-url='<%= siteUrl %>' data-size="medium"
-			   data-text='#TypeItQuick I just typed {{ user.progress }} words in {{ duration - remaining }} seconds!' ></a>
+		<div id="captcha" ng-if="state == 'guest'"></div>
+		<div class="input-div" ng-show="state != 'guest'">
+			<input ng-show="state != 'done'" ng-disabled="state != 'playing'"
+				   ng-keyup="checkWord($event)" ng-model="word" ng-class="inputClass()" type="text"
+				   id="theInput" placeholder="Type words here..." autofocus/>
 		</div>
 	</footer>
 </div>

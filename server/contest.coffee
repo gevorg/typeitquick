@@ -23,7 +23,15 @@ class Contest
   constructor: (io) ->
     @id = uuid.v4()
     @started = Date.now()
-    @text = fs.readFileSync(__dirname + "/texts/" + texts[Math.floor(Math.random() * texts.length)], 'utf8')
+
+    # Load new text.
+    text = fs.readFileSync(__dirname + "/texts/" + texts[Math.floor(Math.random() * texts.length)], 'utf8')
+
+    # Extract words.
+    @words = text.trim().replace(/\t/g, ' ').replace(/\n/g, ' ').split(' ')
+    @words = @words.filter (word) -> word.trim().length > 0
+
+    # Set users.
     @users = []
 
     # Register it.

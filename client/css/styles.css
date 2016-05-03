@@ -6,7 +6,6 @@ body {
 
 .content {
 	-webkit-box-shadow: 0 0 21px -2px rgba(0,0,150,0.75);
-	-moz-box-shadow: 0 0 21px -2px rgba(0,0,150,0.75);
 	box-shadow: 0 0 21px -2px rgba(0,0,150,0.75);
 	margin: 0 auto;
 	max-width: 768px;
@@ -110,8 +109,8 @@ footer #captcha {
 	z-index: -1;
 }
 
-.user-text {
-	padding: 10px;
+.user-player {
+	padding: 5px;
 	text-align: right;
 }
 

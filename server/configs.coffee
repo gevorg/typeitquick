@@ -9,5 +9,5 @@ module.exports =
     VERIFY_URL: 'https://www.google.com/recaptcha/api/siteverify?secret=' + process.env.CAPTCHA_APP_SEC + '&response='
   # Contest configs.
   CONTEST:
-    START: 30 * 1000
-    DURATION: 150 * 1000
+    START: 30 * 10000
+    DURATION: 150 * 10000

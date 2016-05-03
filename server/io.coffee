@@ -12,7 +12,7 @@ class IO
       # Done handler.
       socket.on 'done', (data) =>
         @contest.winner = data.winner
-        @namespace.emit 'done', data
+        socket.broadcast.emit 'done', data
 
       # Word handler.
       socket.on 'word', (data) =>

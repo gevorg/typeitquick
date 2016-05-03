@@ -2,6 +2,9 @@
 angular.module('TypeItQuick').controller(
     'GameCtrl', ['$scope', '$http', '$window', '$timeout', 'captchaService', 'contestService', 'ioService',
     function ($scope, $http, $window, $timeout, captchaService, contestService, ioService) {
+        // States 'guest', 'playing', 'waiting', 'done'.
+        $scope.state = 'guest';
+
         // Set 0 progress.
         $scope.user = { progress: 0 };
 
@@ -20,12 +23,10 @@ angular.module('TypeItQuick').controller(
         $scope.text = function () {
             var text = '';
 
-            if (!$scope.joined) {
-                text = 'You need to complete the CAPTCHA below';
-            } else if (!$scope.started) {
+            if ($scope.state == 'guest' || $scope.state == 'waiting') {
                 text = 'Contest starts ' +
                     ($scope.remaining > 1 ? "from " + $scope.remaining + " seconds" : "now") + "!";
-            } else if (!$scope.ended) {
+            } else if ($scope.state == 'playing') {
                 text = 'Contest ends ' +
                     ($scope.remaining > 1 ? "in " + $scope.remaining + " seconds" : "now") + '!';
             } else {
@@ -73,7 +74,7 @@ angular.module('TypeItQuick').controller(
             ioService.on('done', function(data) {
                 $scope.$apply(function () {
                     $scope.winner = data.winner;
-                    $scope.ended = true;
+                    $scope.state = 'done';
                     $scope.word = '';
                 });
             });
@@ -87,7 +88,7 @@ angular.module('TypeItQuick').controller(
 
                 // Extract contest data.
                 $scope.id = contest.id;
-                $scope.words = contestService.words(contest.text);
+                $scope.words = contestService.words(contest.words);
                 $scope.remaining = result.data.remaining;
 
                 // Extract users.
@@ -98,15 +99,15 @@ angular.module('TypeItQuick').controller(
 
                 // Start timer.
                 function startTimer() {
-                    if ($scope.ended) return;
+                    if ($scope.state == 'done') return;
 
                     $scope.remaining --;
                     if ($scope.remaining < 1) {
-                        if (!$scope.joined) {
+                        if ($scope.state == 'guest') {
                             loadContest();
                         } else {
-                            if (!$scope.started) {
-                                $scope.started = true;
+                            if ($scope.state == 'waiting') {
+                                $scope.state = 'playing';
                                 $scope.remaining = $scope.duration;
 
                                 // Focus.
@@ -118,7 +119,7 @@ angular.module('TypeItQuick').controller(
                                 $timeout(startTimer, 1000);
                             } else {
                                 // Finish game.
-                                $scope.ended = true;
+                                $scope.state = 'done';
                                 $scope.word = '';
                             }
                         }
@@ -133,7 +134,8 @@ angular.module('TypeItQuick').controller(
 
         // Load captcha.
         captchaService.load('captcha', function(response) {
-            $scope.joined = true;
+            $scope.state = 'waiting';
+
             $http.post("/join", {'captcha': response, 'id': $scope.id}).then(function(response) {
                 captchaService.destroy();
 
@@ -149,9 +151,8 @@ angular.module('TypeItQuick').controller(
 
         // Check word.
         $scope.checkWord = function($event) {
-            if ($scope.joined && $scope.user.progress !== $scope.words.length &&
-                ($event.which === 13 || $event.which === 32)) {
-                if (contestService.wordDone($scope.user.progress, $scope.words, $scope.word)) {
+            if ($scope.state == 'playing' && ($event.which === 13 || $event.which === 32)) {
+                if (contestService.wordDone($scope.user.progress, $scope.word)) {
                     // Clear input.
                     $scope.word = contestService.clearWord($scope.word);
 
@@ -164,7 +165,8 @@ angular.module('TypeItQuick').controller(
                     // Done.
                     if ($scope.user.progress === $scope.words.length) {
                         $scope.winner = $scope.user.id;
-                        $scope.ended = true;
+                        $scope.state = 'done';
+
                         ioService.emit('done', { winner: $scope.user.id } );
                     }
                 }
@@ -174,8 +176,7 @@ angular.module('TypeItQuick').controller(
         // Input class.
         $scope.inputClass = function() {
             // If word is wrong.
-            if ($scope.joined && $scope.user.progress !== $scope.words.length &&
-                !contestService.checkWord($scope.user.progress, $scope.words, $('#theInput').val())) {
+            if ($scope.state == 'playing' && !contestService.checkWord($scope.user.progress, $('#theInput').val())) {
                 return 'wrong-word';
             } else {
                 return '';
@@ -200,8 +201,8 @@ angular.module('TypeItQuick').controller(
             return Math.floor(user.progress * 100 / $scope.words.length);
         };
 
-        // Get user name.
-        $scope.userName = function (u) {
+        // Get player.
+        $scope.getPlayer = function (u) {
             return u.id == $scope.user.id ? 'you' : 'guest';
         }
     }
