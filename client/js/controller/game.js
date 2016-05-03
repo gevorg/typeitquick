@@ -207,6 +207,11 @@ angular.module('TypeItQuick').controller(
             return u.id == $scope.user.id ? 'you' : 'guest';
         };
 
+        // Get player class.
+        $scope.getPlayerClass = function (u) {
+            return u.id == $scope.user.id ? 'user-div you' : 'user-div';
+        };
+
         // Words per minute.
         $scope.wpm = function (u) {
             var time = $scope.duration - $scope.startTime;
