@@ -23,6 +23,9 @@ Listening on 5000
 ...
 ```
 
+## Adding new text
+Just add new file into [texts folder](https://github.com/gevorg/typeitquick/tree/master/server/texts)
+
 ## Configuration
 There are few environment variables that you must set
 
