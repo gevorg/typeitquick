@@ -1,3 +1,4 @@
+/* General styles */
 body {
 	margin: 0;
 	padding: 0;
@@ -8,16 +9,16 @@ body {
 	-webkit-box-shadow: 0 0 21px -2px rgba(0,0,150,0.75);
 	box-shadow: 0 0 21px -2px rgba(0,0,150,0.75);
 	margin: 0 auto;
-	max-width: 768px;
+	max-width: 700px;
 	min-width: 310px;
 }
 
+/* Header styles */
 header {
 	position: relative;
 	padding: 20px;
 	color: white;
 	background-color: rgba(0,0,150,0.55);
-	font-size: 20px;
 }
 
 header h1 {
@@ -25,7 +26,53 @@ header h1 {
 	margin: 10px 0;
 }
 
-.relative {
+header h4 {
+	font-size: 20px;
+	margin: 10px 0 0;
+	font-weight: normal;
+}
+
+/* User styles */
+.user-div {
+	background-color: rgba(0,0,150,0.15);
+	width: 100%;
+	position: relative;
+	border-bottom: 1px dotted rgba(0,0,150,0.15);
+	height: 45px;
+}
+
+.user-progress {
+	background-color: rgba(0,0,150,0.75);
+	width: 15%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+}
+
+.user-player {
+	position: absolute;
+	right: 5px;
+	top: 7px;
+}
+
+.wpm {
+	padding: 10px;
+	font-size: 20px;
+	font-weight: bold;
+	color: white;
+	float: left;
+	display: inline-block;
+}
+
+/* The text styles */
+#theTimer {
+	font-size: 22px;
+	border-bottom: 5px dotted rgba(0,0,150,0.15);
+	padding: 15px;
+	text-align: center;
+}
+
+#theTextBox {
 	position: relative;
 }
 
@@ -39,23 +86,6 @@ header h1 {
 	width: 100%;
 	height: 100%;
 	background-color:  rgba(255,255,255,0.90);
-}
-
-#theTimer {
-	font-size: 22px;
-	border-bottom: 5px dotted rgba(0,0,150,0.15);	
-	padding: 25px;
-	text-align: center;
-}
-
-footer {
-	border-top: 5px dotted rgba(0,0,150,0.15);
-	padding: 15px 0;
-}
-
-footer #captcha {
-	margin: 0 auto;
-	width: 300px;
 }
 
 .un-selectable {
@@ -77,46 +107,37 @@ footer #captcha {
 	text-decoration: underline;
 }
 
-.input-div {
-	padding: 0 15px;
+/* Footer styles */
+footer {
+	border-top: 5px dotted rgba(0,0,150,0.15);
+	padding: 0;
 }
 
-#theInput {
-	width: 97%;
+
+footer .input-div {
+	padding: 10px;
+}
+
+footer #theInput {
+	width: calc(100% - 14px);
 	font-size: 25px;
 	padding: 5px;
 }
 
-.wrong-word {
+footer #theInput.wrong-word {
 	background-color: #ac2925 !important;
 	color: white;
 }
 
-.user-div {
-	background-color: rgba(0,0,150,0.15);
-	width: 100%;
-	position: relative;
-	font-size: 18px;
-	font-weight: bold;
-	border-bottom: 1px dotted rgba(0,0,150,0.15);
+#captcha {
+	margin: 10px auto;
+	width: 300px;
 }
 
-.user-progress {
-	background-color: rgba(0,0,150,0.75);
-	width: 15%;
-	height: 100%;
-	position: absolute;
-	z-index: -1;
-}
-
-.user-player {
-	padding: 7px 5px 3px;
-	text-align: right;
-}
-
-.links {
-	margin-top: 15px;
+.license {
+	padding: 20px;
 	text-align: center;
+	font-size: 14px;
 }
 
 /*!

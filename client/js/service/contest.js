@@ -3,7 +3,7 @@ angular.module('TypeItQuick')
     .factory('contestService', [function() {
         // Words of contents.
         var words = [];
-        
+
         // Return service object.
         return {
             // Word done.
@@ -54,6 +54,17 @@ angular.module('TypeItQuick')
                 }
 
                 return words;
+            },
+
+            // WPM calculation.
+            wpm: function (progress, time) {
+                var textLength = 0;
+
+                for (var i = 0; i < progress; ++i) {
+                    textLength += words[i].length + 1;
+                }
+
+                return parseInt(textLength * 60 / 5 / time) || 0;
             }
         }
     }]);

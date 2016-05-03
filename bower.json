@@ -6,7 +6,8 @@
     ],
     "dependencies": {
         "angular": "*",
-        "jquery": "*"
+        "jquery": "*",
+        "angular-sanitize": "*"
     },
     "resolutions":{
         "angular": "~1.5.3"

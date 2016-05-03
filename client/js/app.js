@@ -1,2 +1,2 @@
 // TypeItQuick module.
-angular.module('TypeItQuick', []);
+angular.module('TypeItQuick', ['ngSanitize']);

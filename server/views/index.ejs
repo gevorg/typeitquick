@@ -15,7 +15,7 @@
 
 	<script src="/components/jquery/dist/jquery.min.js"></script>
 	<script src="/components/angular/angular.min.js"></script>
-	<script src="/components/angular-socialshare/angular-socialshare.min.js"></script>
+	<script src="/components/angular-sanitize/angular-sanitize.min.js"></script>
 
 	<script src="/socket.io/socket.io.js"></script>
 
@@ -53,34 +53,36 @@
 <div class="content">
 	<header>
 		<h1>Type It Quick!</h1>
-		<p>Improve your typing speed by competing with other players.</p>
+		<h4>Improve your typing speed by competing with other players.</h4>
 		<a class="github-fork-ribbon right-top" href="https://github.com/gevorg/Flatback/" title="Fork me on GitHub">Fork me on GitHub</a>
 	</header>
 	<div class="user-div" ng-repeat="u in users">
-		<div class="user-progress" ng-attr-style="width: {{progress(u)}}%">
-			&nbsp;
+		<div class="user-progress" ng-attr-style="width: {{progress(u)}}%"></div>
+		<div ng-bind="wpm(u) + ' wpm' " class="wpm">
 		</div>
 		<div class="user-player">
 			<img ng-attr-src="/img/{{getPlayer(u)}}.png" ng-attr-title="{{getPlayer(u)}}" />
 		</div>
 	</div>
 	<div id="theTimer">
-		<span ng-bind="text()"></span>
+		<span ng-bind-html="progressText()"></span>
+		<span ng-bind-html="resultsText()"></span>
+		<div id="captcha" ng-show="state == 'guest'"></div>
 	</div>
-	<div class="relative">
+	<div id="theTextBox">
 		<div id="theLayer" ng-if="state == 'guest'"></div>
 		<div id="theText" class="un-selectable">
 			<span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span ng-bind="word"></span> </span>
 		</div>
 	</div>
 	<footer>
-		<div id="captcha" ng-if="state == 'guest'"></div>
-		<div class="input-div" ng-show="state != 'guest'">
-			<input ng-show="state != 'done'" ng-disabled="state != 'playing'"
+		<div class="input-div">
+			<input ng-disabled="state != 'playing'"
 				   ng-keyup="checkWord($event)" ng-model="word" ng-class="inputClass()" type="text"
 				   id="theInput" placeholder="Type words here..." autofocus/>
 		</div>
 	</footer>
 </div>
+<div class="license">Project is published under <a target="_blank" href="https://github.com/gevorg/typeitquick/blob/master/LICENSE">MIT License</a></div>
 </body>
 </html>
