@@ -13,7 +13,7 @@ angular.module('TypeItQuick').controller(
 
         // Set empty winner.
         $scope.winner = null;
-        
+
         // Get text.
         $scope.text = function () {
             var text = '';
@@ -83,7 +83,15 @@ angular.module('TypeItQuick').controller(
 
                 // Extract users.
                 $scope.users = contest.users;
+                $scope.user.id = result.data.userId;
 
+                // Check if user is playing.
+                angular.forEach($scope.users, function(user) {
+                    if (user.id == $scope.user.id) {
+                        $scope.state = 'waiting';
+                    }
+                });
+                
                 // Socket.
                 setupSocket();
 
@@ -117,6 +125,7 @@ angular.module('TypeItQuick').controller(
                         $timeout(startTimer, 1000);
                     }
                 }
+
                 $timeout(startTimer, 1000);
             });
         }

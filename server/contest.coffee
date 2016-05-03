@@ -46,7 +46,7 @@ class Contest
       delete contests[@id]
     , configs.CONTEST.DURATION
 
-  # User joins contest.
+# User joins contest.
   join: (sessionId) ->
     user = {id: sessionId, progress: 0}
     @users.push user

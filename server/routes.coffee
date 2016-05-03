@@ -42,6 +42,7 @@ module.exports = (app, io) ->
 
     res.json {
       contest: JSON.stringify(currentContest)
+      userId: req.sessionID
       remaining: Math.ceil (configs.CONTEST.START - Date.now() + currentContest.started) / 1000
     }
 
