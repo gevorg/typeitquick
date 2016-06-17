@@ -7,23 +7,6 @@ contest = require './contest'
 # Request module.
 request = require 'request'
 
-# Date formatting.
-dateFormat = require 'dateformat'
-
-# Sitemap.
-sitemap = (require 'sitemap').createSitemap ({
-  hostname: configs.SITE_URL,
-  cacheTime: 600000,        # 600 sec - cache purge period
-  urls: [
-    {
-      url: '/'
-      changefreq: 'weekly'
-      priority: 1
-      lastmodISO: dateFormat(new Date(), "yyyy-MM-dd")
-    }
-  ]
-});
-
 # Export routes.
 module.exports = (app, io) ->
   # Sitemap added.

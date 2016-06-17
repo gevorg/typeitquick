@@ -10,10 +10,12 @@ angular.module('TypeItQuick')
                 // Setup socket.
                 socket = io($window.siteUrl + id);
             },
+            
             on: function(event, handler) {
                 // Setup handler.
                 socket.on(event, handler);
             },
+            
             emit: function(event, data) {
                 // Emit event.
                 socket.emit(event, data);
