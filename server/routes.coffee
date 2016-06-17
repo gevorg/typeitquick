@@ -9,14 +9,6 @@ request = require 'request'
 
 # Export routes.
 module.exports = (app, io) ->
-  # Sitemap added.
-  app.get '/sitemap.xml', (req, res) ->
-    sitemap.toXML (err, xml) ->
-      if err
-        return res.status(500).end()
-
-      res.header 'Content-Type', 'application/xml'
-      res.send xml
 
   # Current contest.
   app.get '/current', (req, res) ->
