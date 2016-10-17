@@ -29,7 +29,7 @@ angular.module('TypeItQuick')
                 word = word.toLowerCase();
 
                 // Is it correct!
-                return todoWord.indexOf(word) === 0 || word.indexOf(todoWord) === 0;
+                return todoWord.indexOf(word) === 0 || word.indexOf(todoWord + ' ') === 0;
             },
 
             // Clear word.
