@@ -2,6 +2,6 @@
 *.iml
 node_modules
 bower_components
-client/components
 npm-debug.log
 tmp
+.bowerrc

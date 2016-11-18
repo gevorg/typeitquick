@@ -28,6 +28,10 @@ const setupApp = (app, express, io) => {
     const assets = express.static(`${__dirname}/../client`);
     app.use('/', assets);
 
+    // Bower asset setup.
+    const bowerAssets = express.static(`${__dirname}/../bower_components`);
+    app.use('/components', bowerAssets);
+
     // Views setup.
     app.set('view engine', 'ejs');
     app.set('views', `${__dirname}/views`);
