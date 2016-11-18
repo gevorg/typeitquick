@@ -11,7 +11,7 @@ const configs = require('./configs');
 const ioService = require('./io');
 
 // Namespaces.
-const contests = [];
+let contests = {};
 let currentContest = null;
 
 // Texts.
@@ -19,7 +19,7 @@ let texts = [];
 
 // Class for contest logic.
 class Contest {
-    constructor(io) {
+    constructor() {
         this.id = uuid();
         this.started = Date.now();
 
@@ -36,13 +36,6 @@ class Contest {
 
         // Set users.
         this.users = [];
-
-        // Register it.
-        let currentContest = this.id;
-        contests[currentContest] = this;
-
-        // Setup IO.
-        ioService.contest(io, this);
 
         // Setup cleanup.
         setTimeout(() => {
@@ -71,8 +64,17 @@ module.exports = {
     current: (io) => {
         // Not looping yet, start looping.
         if (!currentContest || (Date.now() - contests[currentContest].started) >= configs.CONTEST_START) {
+            let contest = new Contest();
+
+            // Setup IO.
+            ioService.contest(io, contest);
+
+            // Register contest.
+            contests[contest.id] = contest;
+            currentContest = contest.id;
+
             // Return the first.
-            return new Contest(io);
+            return contest;
         } else {
             // Return current.
             return contests[currentContest];

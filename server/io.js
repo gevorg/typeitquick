@@ -1,5 +1,5 @@
 // Namespaces.
-const namespaces = {};
+let namespaces = {};
 
 // IO setup.
 const setupIO = {
