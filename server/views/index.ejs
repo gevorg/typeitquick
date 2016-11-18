@@ -50,39 +50,39 @@
 	</script>
 </head>
 <body ng-controller="GameCtrl">
-<div class="content">
-	<header>
-		<h1>Type It Quick!</h1>
-		<h4>Improve your typing speed by competing with other players</h4>
-		<a class="github-fork-ribbon right-top" href="https://github.com/gevorg/typeitquick/" title="Fork me on GitHub">Fork me on GitHub</a>
-	</header>
-	<div ng-repeat="u in users" ng-attr-class="{{ getPlayerClass(u) }}">
-		<div class="user-progress" ng-attr-style="width: {{progress(u)}}%"></div>
-		<div ng-bind="wpm(u) + ' wpm' " class="wpm">
+	<div class="content">
+		<header>
+			<h1>Type It Quick!</h1>
+			<h4>Improve your typing speed by competing with other players</h4>
+			<a class="github-fork-ribbon right-top" href="https://github.com/gevorg/typeitquick/" title="Fork me on GitHub">Fork me on GitHub</a>
+		</header>
+		<div ng-repeat="u in users" ng-attr-class="{{ getPlayerClass(u) }}">
+			<div class="user-progress" ng-attr-style="width: {{progress(u)}}%"></div>
+			<div ng-bind="wpm(u) + ' wpm' " class="wpm">
+			</div>
+			<div class="user-player">
+				<img ng-attr-src="/img/{{getPlayer(u)}}.png" ng-attr-title="{{getPlayer(u)}}" />
+			</div>
 		</div>
-		<div class="user-player">
-			<img ng-attr-src="/img/{{getPlayer(u)}}.png" ng-attr-title="{{getPlayer(u)}}" />
+		<div id="theTimer">
+			<span ng-bind-html="progressText()"></span>
+			<span ng-bind-html="resultsText()"></span>
+			<div id="captcha" ng-show="state == 'guest'"></div>
 		</div>
-	</div>
-	<div id="theTimer">
-		<span ng-bind-html="progressText()"></span>
-		<span ng-bind-html="resultsText()"></span>
-		<div id="captcha" ng-show="state == 'guest'"></div>
-	</div>
-	<div id="theTextBox">
-		<div id="theLayer" ng-if="state == 'guest'"></div>
-		<div id="theText" class="un-selectable">
-			<span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span ng-bind="word"></span> </span>
+		<div id="theTextBox">
+			<div id="theLayer" ng-if="state == 'guest'"></div>
+			<div id="theText" class="un-selectable">
+				<span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span ng-bind="word"></span> </span>
+			</div>
 		</div>
-	</div>
-	<footer>
 		<div class="input-div">
 			<input ng-disabled="state != 'playing'"
 				   ng-keyup="checkWord($event)" ng-model="word" ng-class="inputClass()" type="text"
 				   id="theInput" placeholder="Type words here..." autofocus/>
 		</div>
+	</div>
+	<footer>
+		Project is published under <a target="_blank" href="https://github.com/gevorg/typeitquick/blob/master/LICENSE">MIT License</a>
 	</footer>
-</div>
-<div class="license">Project is published under <a target="_blank" href="https://github.com/gevorg/typeitquick/blob/master/LICENSE">MIT License</a></div>
 </body>
 </html>

@@ -122,25 +122,20 @@ header h4 {
 	text-decoration: underline;
 }
 
-/* Footer styles */
-footer {
+/* Input styles */
+.input-div {
+	padding: 10px;
 	border-top: 5px dotted rgba(0,0,150,0.15);
-	padding: 0;
 	background-color: #eee;
 }
 
-
-footer .input-div {
-	padding: 10px;
-}
-
-footer #theInput {
+#theInput {
 	width: calc(100% - 14px);
 	font-size: 25px;
 	padding: 5px;
 }
 
-footer #theInput.wrong-word {
+#theInput.wrong-word {
 	background-color: #ac2925 !important;
 	color: white;
 }
@@ -150,7 +145,7 @@ footer #theInput.wrong-word {
 	width: 300px;
 }
 
-.license {
+footer {
 	padding: 20px;
 	text-align: center;
 	font-size: 14px;
@@ -273,5 +268,5 @@ footer #theInput.wrong-word {
 }
 
 .github-fork-ribbon.right-top:before {
-	background-color: #4c69ba;
+	background-color: #777;
 }
