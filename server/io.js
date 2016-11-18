@@ -1,15 +1,12 @@
 // Namespaces.
 const namespaces = {};
 
-// Class for IO.
-class IO {
-    constructor(io, contest) {
+// IO setup.
+const setupIO = {
+    // Contest.
+    contest: (io, contest) => {
         // Setup namespace.
         let namespace = io.of(`/${contest.id}`);
-
-        // Assign props.
-        this.contest = contest;
-        this.namespace = namespace;
 
         // Add to namespaces object.
         namespaces[contest.id] = namespace;
@@ -37,14 +34,6 @@ class IO {
                 }
             });
         });
-    }
-}
-
-// Export IO.
-module.exports = {
-    // Contest.
-    contest: (io, contest) => {
-        return new IO(io, contest);
     },
 
     // Emit.
@@ -52,3 +41,6 @@ module.exports = {
         namespaces[contestId].emit(event, data);
     }
 };
+
+// Export IO setup.
+module.exports = setupIO;
