@@ -20,7 +20,9 @@ let texts = [];
 // Class for contest logic.
 class Contest {
     constructor() {
-        this.id = uuid();
+        let id = uuid();
+
+        this.id = id;
         this.started = Date.now();
 
         // Load new text.
@@ -39,7 +41,8 @@ class Contest {
 
         // Setup cleanup.
         setTimeout(() => {
-            delete contests[currentContest];
+            if (currentContest === id) currentContest = null;
+            delete contests[id];
         }, configs.CONTEST_DURATION);
     }
 
