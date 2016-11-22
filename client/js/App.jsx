@@ -8,7 +8,6 @@ import Recaptcha from 'react-recaptcha'
 // Local imports.
 import Users from './Users.jsx'
 import Words from './Words.jsx'
-import TextInput from './TextInput.jsx'
 import ProgressText from './ProgressText.jsx'
 import ResultText from './ResultText.jsx'
 
@@ -27,7 +26,7 @@ const START = {
     winner: null,
     startTime: null,
     duration: null,
-    socket: null
+    wrongWord: false
 };
 
 // The main component.
@@ -95,11 +94,11 @@ class App extends React.Component {
                 }
             });
 
-            let socket = self.setupSocket(c.id);
+            this.socket = self.setupSocket(c.id);
 
             // Update state.
             self.setState({...self.state, contest: contest, startTime: json.remaining, duration: json.duration,
-                           userId: json.userId, id: c.id, words: c.words, users: c.users, socket: socket});
+                           userId: json.userId, id: c.id, words: c.words, users: c.users});
 
             // Starting timer.
             self.startTimer();
@@ -120,11 +119,14 @@ class App extends React.Component {
                 updates = {...updates, contest: 'playing', startTime: this.state.duration};
             } else if ('playing' === this.state.contest) {
                 this.stopTimer();
-                updates = {...updates, contest: 'done'};
+                this.refs.input.value = '';
+
+                updates = {...updates, contest: 'done', wrongWord: false};
             }
         }
 
         this.setState(...this.state, updates);
+        this.refs.input.focus();
     }
 
     startTimer() {
@@ -151,6 +153,7 @@ class App extends React.Component {
         let progress = this.state.progress;
         let winner = null;
         let contest = this.state.contest;
+        let wrongWord = this.state.wrongWord;
 
         if (data.id === this.state.userId) {
             progress = data.progress;
@@ -165,22 +168,68 @@ class App extends React.Component {
                 if (user.progress === this.state.words.length) {
                     winner = data.id;
                     contest = 'done';
+                    wrongWord = false;
+
                     this.stopTimer();
+                    this.refs.input.value = '';
                 }
 
                 return true;
             }
         });
 
-        this.setState({...this.state, users: users, winner: winner, contest: contest, progress: progress});
+        this.setState({...this.state, users: users, winner: winner, contest: contest, progress: progress,
+                                      wrongWord: wrongWord});
     }
 
     wordDone() {
         let data = {id: this.state.userId, progress: ++this.state.progress};
         this.updateProgress(data);
-        this.state.socket.emit('word', data);
+        this.socket.emit('word', data);
     }
 
+    clearWord(target) {
+        // Tokenize.
+        let tokens = target.value.trim().split(' ');
+        if (tokens.length > 1) {
+            tokens.splice(0, 1);
+
+            // New string.
+            target.value = tokens.join(' ');
+        } else {
+            // Empty.
+            target.value = '';
+        }
+    }
+
+    checkWord(e) {
+        let word = e.target.value;
+
+        // Comparison part.
+        let todoWord = this.state.words[this.state.progress];
+        todoWord = todoWord.toLowerCase();
+
+        // Typing part.
+        word = word.toLowerCase();
+
+        // It is correct!
+        if (todoWord.indexOf(word) === 0 || word.indexOf(todoWord + ' ') === 0) {
+            this.setState({...this.state, wrongWord: false});
+
+            // Enter or space.
+            if (e.which === 13 || e.which === 32) {
+                if (todoWord == word || word.indexOf(todoWord) === 0) {
+                    // Clear input.
+                    this.clearWord(e.target);
+
+                    // Word done.
+                    this.wordDone();
+                }
+            }
+        } else {
+            this.setState({...this.state, wrongWord: true});
+        }
+    }
 
     render() {
         let captcha = '';
@@ -192,6 +241,14 @@ class App extends React.Component {
                                verifyCallback={this.captchaDone.bind(this)} />
         } else if ('loading' === this.state.contest) {
             captcha = <span>Loading...</span>
+        }
+
+        // Text input.
+        let className = 'input-text';
+        let disabled = 'playing' !== this.state.contest;
+
+        if (this.state.wrongWord) {
+            className += ' wrong-word';
         }
 
         // Return the result.
@@ -209,8 +266,10 @@ class App extends React.Component {
                 </div>
                 <Words words={this.state.words} contest={this.state.contest}
                        progress={this.state.progress} />
-                <TextInput words={this.state.words} progress={this.state.progress}
-                           contest={this.state.contest} wordDone={this.wordDone.bind(this)}/>
+                <div className='input-box'>
+                    <input type='text' ref='input' className={className}
+                           onKeyUp={this.checkWord.bind(this)} placeholder='Type words here...' disabled={disabled}/>
+                </div>
             </div>
         )
     }
