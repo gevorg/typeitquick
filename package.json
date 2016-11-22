@@ -5,7 +5,7 @@
     "url": "http://github.com/gevorg/typeitquick.git"
   },
   "scripts": {
-    "build": "webpack --config ./webpack.config.js --progress --colors",
+    "heroku-postbuild": "webpack --config ./webpack.config.js --progress --colors",
     "start": "node web.js"
   },
   "dependencies": {
