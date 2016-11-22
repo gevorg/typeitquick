@@ -34,8 +34,7 @@ There are few environment variables that you must set
 - **CAPTCHA_APP_SEC** - application secret used by captcha
 
 ## Dependencies
- - For server look [package.json](https://github.com/gevorg/typeitquick/blob/master/package.json)
- - For client look [bower.json](https://github.com/gevorg/typeitquick/blob/master/bower.json)
+ - Look [package.json](https://github.com/gevorg/typeitquick/blob/master/package.json)
 
 ## License
 
