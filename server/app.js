@@ -30,13 +30,15 @@ const setupApp = (app, express, io) => {
     const assets = express.static(`${__dirname}/../client`);
     app.use('/', assets);
 
-    // Webpack.
-    const webpack = require('webpack');
-    const webpackConfig = require('../webpack.config');
-    const compiler = webpack(webpackConfig);
+    if ('production' !== process.env.NODE_ENV) {
+        // Webpack.
+        const webpack = require('webpack');
+        const webpackConfig = require('../webpack.config');
+        const compiler = webpack(webpackConfig);
 
-    // Add webpack middleware.
-    app.use(require('webpack-dev-middleware')(compiler));
+        // Add webpack middleware.
+        app.use(require('webpack-dev-middleware')(compiler));
+    }
 
     // Views setup.
     app.set('view engine', 'ejs');
