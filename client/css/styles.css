@@ -91,6 +91,11 @@ header h4 {
 	position: relative;
 }
 
+.word-loading {
+	padding: 20px;
+	text-align: center;
+}
+
 .words {
 	font-size: 22px;
 	padding: 25px;

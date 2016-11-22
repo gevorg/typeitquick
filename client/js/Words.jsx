@@ -4,7 +4,7 @@ import React from 'react';
 
 const Words = (props) => {
     // If no words loaded.
-    if (!props.words.length) return <div className='word-box'>Loading...</div>;
+    if (!props.words.length) return <div className='word-box word-loading'>Loading...</div>;
 
     // Hidden layer.
     let layer = 'guest' === props.contest ? <div className='word-layer' /> : '';
