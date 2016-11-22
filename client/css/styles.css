@@ -43,7 +43,7 @@ header h4 {
 }
 
 /* User styles */
-.user-div {
+.user-box {
 	background-color: rgba(0,0,150,0.15);
 	width: 100%;
 	position: relative;
@@ -52,7 +52,7 @@ header h4 {
 	color: white;
 }
 
-.user-div.you {
+.user-box.you {
 	color: black;
 }
 
@@ -70,7 +70,7 @@ header h4 {
 	top: 7px;
 }
 
-.wpm {
+.user-wpm {
 	padding: 10px;
 	font-size: 20px;
 	font-weight: bold;
@@ -79,7 +79,7 @@ header h4 {
 }
 
 /* The text styles */
-#theTimer {
+.info-box {
 	font-size: 22px;
 	border-bottom: 5px dotted rgba(0,0,150,0.15);
 	padding: 15px;
@@ -87,16 +87,16 @@ header h4 {
 	background-color: #eee;
 }
 
-#theTextBox {
+.word-box {
 	position: relative;
 }
 
-#theText {
+.words {
 	font-size: 22px;
 	padding: 25px;
 }
 
-#theLayer {
+.word-layer {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -123,24 +123,24 @@ header h4 {
 }
 
 /* Input styles */
-.input-div {
+.input-box {
 	padding: 10px;
 	border-top: 5px dotted rgba(0,0,150,0.15);
 	background-color: #eee;
 }
 
-#theInput {
+.input-text {
 	width: calc(100% - 14px);
 	font-size: 25px;
 	padding: 5px;
 }
 
-#theInput.wrong-word {
+.input-text.wrong-word {
 	background-color: #ac2925 !important;
 	color: white;
 }
 
-#captcha {
+.g-recaptcha, #g-recaptcha {
 	margin: 10px auto;
 	width: 300px;
 }

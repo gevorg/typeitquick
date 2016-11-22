@@ -1,3 +1,5 @@
+'use strict';
+
 // Those were part of express framework.
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -28,9 +30,13 @@ const setupApp = (app, express, io) => {
     const assets = express.static(`${__dirname}/../client`);
     app.use('/', assets);
 
-    // Bower asset setup.
-    const bowerAssets = express.static(`${__dirname}/../bower_components`);
-    app.use('/components', bowerAssets);
+    // Webpack.
+    const webpack = require('webpack');
+    const webpackConfig = require('../webpack.config');
+    const compiler = webpack(webpackConfig);
+
+    // Add webpack middleware.
+    app.use(require('webpack-dev-middleware')(compiler));
 
     // Views setup.
     app.set('view engine', 'ejs');

@@ -1,88 +1,44 @@
 <!doctype html>
 <html ng-app="TypeItQuick">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="keywords" content="online, type, quick, contest" />
-	<meta name="description" content="Online typing contest!"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="fragment" content="!">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="online, type, quick, contest" />
+    <meta name="description" content="Online typing contest!"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="fragment" content="!">
 
-	<title>Type It Quick - Online Typing Contest!</title>
+    <title>Type It Quick - Online Typing Contest!</title>
 
-	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
-	<link href="/css/styles.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico"/>
+    <link href="/css/styles.css" rel="stylesheet">
 
-	<script src="/components/jquery/dist/jquery.min.js"></script>
-	<script src="/components/angular/angular.min.js"></script>
-	<script src="/components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="//www.google.com/recaptcha/api.js" async defer></script>
+    <script src="/socket.io/socket.io.js"></script>
 
-	<script src="/socket.io/socket.io.js"></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	<script src="/js/app.js"></script>
-	<script src="/js/service/captcha.js"></script>
-	<script src="/js/service/contest.js"></script>
-	<script src="/js/service/io.js"></script>
-	<script src="/js/controller/game.js"></script>
-
-	<script type="text/javascript">
-		// Script load callback.
-		var recaptchaLoaded = function() {
-			// Connecting to controller.
-			$(window).trigger('recaptchaLoaded');
-		};
-
-		// Captcha key.
-		window.captchaKey = '<%= captchaKey %>';
-
-		// Site url.
-		window.siteUrl = '<%= siteUrl %>';
-	</script>
-
-	<script>
-		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-					(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		ga('create', 'UA-48892246-4', 'auto');
-		ga('send', 'pageview');
-	</script>
+        ga('create', 'UA-48892246-4', 'auto');
+        ga('send', 'pageview');
+    </script>
 </head>
-<body ng-controller="GameCtrl">
-	<div class="content">
-		<header>
-			<h1>Type It Quick!</h1>
-			<h4>Improve your typing speed by competing with other players</h4>
-			<a class="github-fork-ribbon right-top" href="https://github.com/gevorg/typeitquick/" title="Fork me on GitHub">Fork me on GitHub</a>
-		</header>
-		<div ng-repeat="u in users" ng-attr-class="{{ getPlayerClass(u) }}">
-			<div class="user-progress" ng-attr-style="width: {{progress(u)}}%"></div>
-			<div ng-bind="wpm(u) + ' wpm' " class="wpm">
-			</div>
-			<div class="user-player">
-				<img ng-attr-src="/img/{{getPlayer(u)}}.png" ng-attr-title="{{getPlayer(u)}}" />
-			</div>
-		</div>
-		<div id="theTimer">
-			<span ng-bind-html="progressText()"></span>
-			<span ng-bind-html="resultsText()"></span>
-			<div id="captcha" ng-show="state == 'guest'"></div>
-		</div>
-		<div id="theTextBox">
-			<div id="theLayer" ng-if="state == 'guest'"></div>
-			<div id="theText" class="un-selectable">
-				<span ng-class="wordClass($index)" ng-repeat="word in words track by $index"><span ng-bind="word"></span> </span>
-			</div>
-		</div>
-		<div class="input-div">
-			<input ng-disabled="state != 'playing'"
-				   ng-keyup="checkWord($event)" ng-model="word" ng-class="inputClass()" type="text"
-				   id="theInput" placeholder="Type words here..." autofocus/>
-		</div>
-	</div>
-	<footer>
-		Project is published under <a target="_blank" href="https://github.com/gevorg/typeitquick/blob/master/LICENSE">MIT License</a>
-	</footer>
+<body>
+<div class="content">
+    <header>
+        <h1>Type It Quick!</h1>
+        <h4>Improve your typing speed by competing with other players</h4>
+        <a class="github-fork-ribbon right-top" href="https://github.com/gevorg/typeitquick/" title="Fork me on GitHub">Fork me on GitHub</a>
+    </header>
+
+    <div id="root"></div>
+    <script src="/js/bundle.js"></script>
+</div>
+<footer>
+    Project is published under <a target="_blank" href="https://github.com/gevorg/typeitquick/blob/master/LICENSE">MIT License</a>
+</footer>
 </body>
 </html>

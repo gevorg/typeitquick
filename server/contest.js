@@ -1,3 +1,5 @@
+'use strict';
+
 // UUID module.
 const uuid = require('uuid');
 

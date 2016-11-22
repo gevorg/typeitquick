@@ -30,7 +30,6 @@ Just add new file into [texts folder](https://github.com/gevorg/typeitquick/tree
 There are few environment variables that you must set
 
 - **PORT** - server port to run, by default it is 5000
-- **SITE_URL** - website url, by default it is 'http://localhost:5000/'
 - **CAPTCHA_APP_KEY** - application key used by captcha
 - **CAPTCHA_APP_SEC** - application secret used by captcha
 

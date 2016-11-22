@@ -1,3 +1,5 @@
+'use strict';
+
 // Namespaces.
 let namespaces = {};
 
@@ -18,7 +20,7 @@ const setupIO = {
                 if (!contest.winner) {
                     // Update user's progress.
                     contest.users.forEach((user) => {
-                        if (user.id == data.user) {
+                        if (user.id == data.id) {
                             // Update progress.
                             user.progress = data.progress;
 

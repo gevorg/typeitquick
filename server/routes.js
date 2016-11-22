@@ -1,3 +1,5 @@
+'use strict';
+
 // Configs.
 const configs = require('./configs');
 
@@ -16,12 +18,12 @@ const setupRoutes = (app, io) => {
 
         // Remaining time.
         let remaining = Math.ceil((configs.CONTEST_START - Date.now() + currentContest.started) / 1000);
-
         // Response.
         res.json({
-            contest: JSON.stringify(currentContest),
+            contest: currentContest,
             userId: req.sessionID,
-            remaining: remaining
+            remaining: remaining,
+            duration: Math.ceil((configs.CONTEST_DURATION - configs.CONTEST_START) / 1000)
         })
     });
 
@@ -31,10 +33,7 @@ const setupRoutes = (app, io) => {
             request(`${configs.CAPTCHA_URL}${req.body.captcha}&remoteip=${req.ip}`, (error, response, body) => {
                 if (JSON.parse(body).success) {
                     contest.join(req.sessionID, req.body.id);
-                    res.json({
-                        id: req.sessionID,
-                        duration: Math.ceil((configs.CONTEST_DURATION - configs.CONTEST_START) / 1000)
-                    });
+                    res.sendStatus(200);
                 } else {
                     res.status(400).send('Captcha validation failed!');
                 }
@@ -44,13 +43,10 @@ const setupRoutes = (app, io) => {
         }
     });
 
-    // Load index page.
+    // Load new index page.
     app.get('/', (req, res) => {
         // Render contest.
-        res.render('index', {
-            captchaKey: configs.CAPTCHA_KEY,
-            siteUrl: configs.SITE_URL
-        });
+        res.render('index');
     });
 };
 
