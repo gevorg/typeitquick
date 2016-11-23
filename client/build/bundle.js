@@ -576,11 +576,11 @@
 	    id: -1,
 	    words: [],
 	    users: [],
-	    userId: -1,
+	    userId: '',
 	    progress: 0,
 	    winner: null,
-	    startTime: null,
-	    duration: null,
+	    startTime: 0,
+	    duration: 0,
 	    captchaKey: null
 	};
 
@@ -22226,26 +22226,31 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// User list component.
-	var Users = function Users(props) {
+	var Users = function Users(_ref) {
+	    var users = _ref.users,
+	        userId = _ref.userId,
+	        duration = _ref.duration,
+	        startTime = _ref.startTime,
+	        words = _ref.words;
+
 	    // User list.
-	    var userList = props.users.map(function (user) {
-	        var time = props.duration - props.startTime;
+	    var userList = users.map(function (user) {
 	        var playerClass = 'user-box';
 	        var player = 'guest';
 
-	        if (user.id === props.userId) {
+	        if (user.id === userId) {
 	            playerClass += ' you';
 	            player = 'you';
 	        }
 
 	        var playerImg = '/img/' + player + '.png';
-	        var wpm = (0, _Utils.calcWPM)(user.progress, time, props.words);
-	        var progress = Math.floor(user.progress * 100 / props.words.length);
+	        var wpm = (0, _Utils.calcWPM)(user.progress, duration - startTime, words);
+	        var progressPercent = Math.floor(user.progress * 100 / words.length);
 
 	        return _react2.default.createElement(
 	            'div',
 	            { className: playerClass, key: user.id },
-	            _react2.default.createElement('div', { className: 'user-progress', style: { width: progress + '%' } }),
+	            _react2.default.createElement('div', { className: 'user-progress', style: { width: progressPercent + '%' } }),
 	            _react2.default.createElement(
 	                'div',
 	                { className: 'user-wpm' },
@@ -22267,7 +22272,18 @@
 	    );
 	};
 
+	// Define property types.
+
+
 	// Local imports.
+	Users.propTypes = {
+	    users: _react.PropTypes.array.isRequired,
+	    userId: _react.PropTypes.string.isRequired,
+	    duration: _react.PropTypes.number.isRequired,
+	    startTime: _react.PropTypes.number.isRequired,
+	    words: _react.PropTypes.array.isRequired
+	};
+
 	exports.default = Users;
 
 /***/ },
@@ -22308,24 +22324,28 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Words = function Words(props) {
+	var Words = function Words(_ref) {
+	    var words = _ref.words,
+	        contest = _ref.contest,
+	        progress = _ref.progress;
+
 	    // If no words loaded.
-	    if (!props.words.length) return _react2.default.createElement(
+	    if (!words.length) return _react2.default.createElement(
 	        'div',
 	        { className: 'word-box word-loading' },
 	        'Loading...'
 	    );
 
 	    // Hidden layer.
-	    var layer = 'guest' === props.contest ? _react2.default.createElement('div', { className: 'word-layer' }) : '';
+	    var layer = 'guest' === contest ? _react2.default.createElement('div', { className: 'word-layer' }) : '';
 
 	    // Words.
-	    var words = props.words.map(function (word, index) {
+	    var wordList = words.map(function (word, index) {
 	        var className = '';
 
-	        if (index < props.progress) {
+	        if (index < progress) {
 	            className = 'word-done';
-	        } else if (index === props.progress) {
+	        } else if (index === progress) {
 	            className = 'word-now';
 	        }
 
@@ -22348,9 +22368,16 @@
 	        _react2.default.createElement(
 	            'div',
 	            { className: 'un-selectable words' },
-	            words
+	            wordList
 	        )
 	    );
+	};
+
+	// Define property types.
+	Words.propTypes = {
+	    words: _react.PropTypes.array.isRequired,
+	    contest: _react.PropTypes.string.isRequired,
+	    progress: _react.PropTypes.number.isRequired
 	};
 
 	exports.default = Words;
@@ -22473,6 +22500,16 @@
 	    return TextInput;
 	}(_react2.default.Component);
 
+	// Define property types.
+
+
+	TextInput.propTypes = {
+	    contest: _react.PropTypes.string.isRequired,
+	    progress: _react.PropTypes.number.isRequired,
+	    words: _react.PropTypes.array.isRequired,
+	    wordDone: _react.PropTypes.func.isRequired
+	};
+
 	exports.default = TextInput;
 
 /***/ },
@@ -22491,12 +22528,15 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ProgressText = function ProgressText(props) {
+	var ProgressText = function ProgressText(_ref) {
+	    var startTime = _ref.startTime,
+	        contest = _ref.contest;
+
 	    var text = '';
-	    var time = props.startTime;
+	    var time = startTime;
 	    var hurryUp = '';
 
-	    if ('guest' === props.contest) {
+	    if ('guest' === contest) {
 	        hurryUp = _react2.default.createElement(
 	            'strong',
 	            null,
@@ -22504,9 +22544,9 @@
 	        );
 	    }
 
-	    if ('waiting' === props.contest || 'guest' === props.contest) {
+	    if ('waiting' === contest || 'guest' === contest) {
 	        text = 'Contest starts ' + (time > 1 ? 'from ' + time + ' seconds' : 'now') + '!';
-	    } else if ('playing' === props.contest) {
+	    } else if ('playing' === contest) {
 	        text = 'Contest ends ' + (time > 1 ? 'in ' + time + ' seconds' : 'now') + '!';
 	    }
 
@@ -22516,6 +22556,12 @@
 	        hurryUp,
 	        text
 	    );
+	};
+
+	// Define property types.
+	ProgressText.propTypes = {
+	    startTime: _react.PropTypes.number.isRequired,
+	    contest: _react.PropTypes.string.isRequired
 	};
 
 	exports.default = ProgressText;
@@ -22538,26 +22584,35 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ResultText = function ResultText(props) {
+	var ResultText = function ResultText(_ref) {
+	    var contest = _ref.contest,
+	        duration = _ref.duration,
+	        startTime = _ref.startTime,
+	        progress = _ref.progress,
+	        words = _ref.words,
+	        playAgain = _ref.playAgain,
+	        winner = _ref.winner,
+	        userId = _ref.userId;
+
 	    var text = '';
 
-	    if ('done' === props.contest) {
-	        var time = props.duration - props.startTime;
-	        var wpm = (0, _Utils.calcWPM)(props.progress, time, props.words);
+	    if ('done' === contest) {
+	        var time = duration - startTime;
+	        var wpm = (0, _Utils.calcWPM)(progress, time, words);
 
-	        var words = 1 === wpm ? 'word' : 'words';
-	        var playAgain = _react2.default.createElement(
+	        var wordsText = 1 === wpm ? 'word' : 'words';
+	        var playAgainLink = _react2.default.createElement(
 	            'span',
 	            null,
 	            ', ',
 	            _react2.default.createElement(
 	                'a',
-	                { href: '#', onClick: props.playAgain },
+	                { href: '#', onClick: playAgain },
 	                'play again!'
 	            )
 	        );
 
-	        if (props.userId !== props.winner) {
+	        if (userId !== winner) {
 	            text = _react2.default.createElement(
 	                'span',
 	                null,
@@ -22568,9 +22623,9 @@
 	                    wpm
 	                ),
 	                ' ',
-	                words,
+	                wordsText,
 	                ' per minute',
-	                playAgain
+	                playAgainLink
 	            );
 	        } else {
 	            text = _react2.default.createElement(
@@ -22589,9 +22644,9 @@
 	                    wpm
 	                ),
 	                ' ',
-	                words,
+	                wordsText,
 	                ' per minute',
-	                playAgain
+	                playAgainLink
 	            );
 	        }
 	    }
@@ -22601,6 +22656,18 @@
 	        null,
 	        text
 	    );
+	};
+
+	// Define property types.
+	ResultText.propTypes = {
+	    contest: _react.PropTypes.string.isRequired,
+	    duration: _react.PropTypes.number.isRequired,
+	    startTime: _react.PropTypes.number.isRequired,
+	    progress: _react.PropTypes.number.isRequired,
+	    words: _react.PropTypes.array.isRequired,
+	    playAgain: _react.PropTypes.func.isRequired,
+	    winner: _react.PropTypes.string,
+	    userId: _react.PropTypes.string.isRequired
 	};
 
 	exports.default = ResultText;
