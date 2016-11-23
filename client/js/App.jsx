@@ -12,8 +12,6 @@ import TextInput from './TextInput.jsx'
 import ProgressText from './ProgressText.jsx'
 import ResultText from './ResultText.jsx'
 
-// Captcha key.
-const SITE_KEY = '6LfRlwETAAAAAFkKGHqtFFPJMnPitlUpA1NmiUuG';
 
 // Initial state.
 const START = {
@@ -26,7 +24,8 @@ const START = {
     progress: 0,
     winner: null,
     startTime: null,
-    duration: null
+    duration: null,
+    captchaKey: null
 };
 
 // The main component.
@@ -98,7 +97,8 @@ class App extends React.Component {
 
             // Update state.
             self.setState({...self.state, contest: contest, startTime: json.remaining, duration: json.duration,
-                           userId: json.userId, id: c.id, words: c.words, users: c.users});
+                            captchaKey: json.captchaKey,  userId: json.userId, id: c.id, words: c.words,
+                            users: c.users});
 
             // Starting timer.
             self.startTimer();
@@ -191,7 +191,7 @@ class App extends React.Component {
 
         // Render timer.
         if ('guest' === this.state.contest) {
-            captcha = <Recaptcha sitekey={SITE_KEY} render='explicit'
+            captcha = <Recaptcha sitekey={this.state.captchaKey} render='explicit'
                                onloadCallback={this.captchaLoaded}
                                verifyCallback={this.captchaDone.bind(this)} />
         } else if ('loading' === this.state.contest) {

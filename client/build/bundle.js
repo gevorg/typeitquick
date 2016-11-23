@@ -569,9 +569,6 @@
 	// Local imports.
 
 
-	// Captcha key.
-	var SITE_KEY = '6LfRlwETAAAAAFkKGHqtFFPJMnPitlUpA1NmiUuG';
-
 	// Initial state.
 	var START = {
 	    // States 'loading', 'guest', 'waiting', 'playing', 'done'.
@@ -583,7 +580,8 @@
 	    progress: 0,
 	    winner: null,
 	    startTime: null,
-	    duration: null
+	    duration: null,
+	    captchaKey: null
 	};
 
 	// The main component.
@@ -668,7 +666,8 @@
 
 	                // Update state.
 	                self.setState(_extends({}, self.state, { contest: contest, startTime: json.remaining, duration: json.duration,
-	                    userId: json.userId, id: c.id, words: c.words, users: c.users }));
+	                    captchaKey: json.captchaKey, userId: json.userId, id: c.id, words: c.words,
+	                    users: c.users }));
 
 	                // Starting timer.
 	                self.startTimer();
@@ -770,7 +769,7 @@
 
 	            // Render timer.
 	            if ('guest' === this.state.contest) {
-	                captcha = _react2.default.createElement(_reactRecaptcha2.default, { sitekey: SITE_KEY, render: 'explicit',
+	                captcha = _react2.default.createElement(_reactRecaptcha2.default, { sitekey: this.state.captchaKey, render: 'explicit',
 	                    onloadCallback: this.captchaLoaded,
 	                    verifyCallback: this.captchaDone.bind(this) });
 	            } else if ('loading' === this.state.contest) {

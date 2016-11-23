@@ -23,6 +23,7 @@ const setupRoutes = (app, io) => {
             contest: currentContest,
             userId: req.sessionID,
             remaining: remaining,
+            captchaKey: configs.CAPTCHA_KEY,
             duration: Math.ceil((configs.CONTEST_DURATION - configs.CONTEST_START) / 1000)
         })
     });
