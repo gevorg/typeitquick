@@ -27,8 +27,7 @@ const setupApp = (app, express, io) => {
     }));
 
     // Asset Setup.
-    const assets = express.static(`${__dirname}/../client`);
-    app.use('/', assets);
+    app.use('/', express.static(`${__dirname}/../client`));
 
     if ('production' !== process.env.NODE_ENV) {
         // Webpack.
@@ -38,6 +37,9 @@ const setupApp = (app, express, io) => {
 
         // Add webpack middleware.
         app.use(require('webpack-dev-middleware')(compiler));
+    } else {
+        // Build asset setup.
+        app.use('/', express.static(`${__dirname}/../client/build`));
     }
 
     // Views setup.

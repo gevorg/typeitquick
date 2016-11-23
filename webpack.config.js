@@ -1,6 +1,6 @@
 module.exports = {
     entry: ['whatwg-fetch', `${__dirname}/client/js/App.jsx`],
-    output: { path: `${__dirname}/client/`, publicPath: '/', filename: 'js/bundle.js' },
+    output: { path: `${__dirname}/client/build/`, publicPath: '/', filename: 'bundle.js' },
     module: {
         loaders: [
             {
