@@ -1,27 +1,39 @@
 'use strict';
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import {calcWPM} from './Utils.jsx'
 
-const ResultText = (props) => {
+const ResultText = ({ contest, duration, startTime, progress, words, playAgain, winner, userId}) => {
     let text = '';
 
-    if ('done' === props.contest) {
-        let time = props.duration - props.startTime;
-        let wpm = calcWPM(props.progress, time, props.words);
+    if ('done' === contest) {
+        let time = duration - startTime;
+        let wpm = calcWPM(progress, time, words);
 
-        let words = 1 === wpm ? 'word' : 'words';
-        let playAgain = <span>, <a href='#' onClick={props.playAgain}>play again!</a></span>;
+        let wordsText = 1 === wpm ? 'word' : 'words';
+        let playAgainLink = <span>, <a href='#' onClick={playAgain}>play again!</a></span>;
 
-        if (props.userId !== props.winner) {
-            text = <span>Your result is <b>{wpm}</b> {words} per minute{playAgain}</span>
+        if (userId !== winner) {
+            text = <span>Your result is <b>{wpm}</b> {wordsText} per minute{playAgainLink}</span>
         } else {
-            text = <span>Your are <b>the winner</b> with <b>{wpm}</b> {words} per minute{playAgain}</span>
+            text = <span>Your are <b>the winner</b> with <b>{wpm}</b> {wordsText} per minute{playAgainLink}</span>
         }
     }
 
     return <span>{text}</span>
+};
+
+// Define property types.
+ResultText.propTypes = {
+    contest: PropTypes.string.isRequired,
+    duration: PropTypes.number.isRequired,
+    startTime: PropTypes.number.isRequired,
+    progress: PropTypes.number.isRequired,
+    words: PropTypes.array.isRequired,
+    playAgain: PropTypes.func.isRequired,
+    winner: PropTypes.string,
+    userId: PropTypes.string.isRequired
 };
 
 export default ResultText;

@@ -1,21 +1,21 @@
 'use strict';
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const Words = (props) => {
+const Words = ({words, contest, progress}) => {
     // If no words loaded.
-    if (!props.words.length) return <div className='word-box word-loading'>Loading...</div>;
+    if (!words.length) return <div className='word-box word-loading'>Loading...</div>;
 
     // Hidden layer.
-    let layer = 'guest' === props.contest ? <div className='word-layer' /> : '';
+    let layer = 'guest' === contest ? <div className='word-layer' /> : '';
 
     // Words.
-    const words = props.words.map((word, index) => {
+    const wordList = words.map((word, index) => {
         let className = '';
 
-        if (index < props.progress) {
+        if (index < progress) {
             className = 'word-done';
-        } else if (index === props.progress) {
+        } else if (index === progress) {
             className = 'word-now';
         }
 
@@ -25,9 +25,16 @@ const Words = (props) => {
     return (
         <div className='word-box'>
             {layer}
-            <div className='un-selectable words'>{words}</div>
+            <div className='un-selectable words'>{wordList}</div>
         </div>
     );
+};
+
+// Define property types.
+Words.propTypes = {
+    words: PropTypes.array.isRequired,
+    contest: PropTypes.string.isRequired,
+    progress: PropTypes.number.isRequired
 };
 
 export default Words;

@@ -1,19 +1,19 @@
 'use strict';
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const ProgressText = (props) => {
+const ProgressText = ({ startTime, contest }) => {
     let text = '';
-    let time = props.startTime;
+    let time = startTime;
     let hurryUp = '';
 
-    if ('guest' === props.contest) {
+    if ('guest' === contest) {
         hurryUp = <strong>Hurry Up! </strong>
     }
 
-    if ('waiting' === props.contest || 'guest' === props.contest) {
+    if ('waiting' === contest || 'guest' === contest) {
         text = `Contest starts ${time > 1 ? 'from ' + time + ' seconds' : 'now'}!`
-    } else if ('playing' === props.contest) {
+    } else if ('playing' === contest) {
         text = `Contest ends ${time > 1 ? 'in ' + time + ' seconds' : 'now'}!`;
     }
 
@@ -24,5 +24,12 @@ const ProgressText = (props) => {
         </span>
     );
 };
+
+// Define property types.
+ProgressText.propTypes = {
+    startTime: PropTypes.number.isRequired,
+    contest: PropTypes.string.isRequired
+};
+
 
 export default ProgressText;

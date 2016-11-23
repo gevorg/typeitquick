@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 class TextInput extends React.Component {
     constructor() {
@@ -79,5 +79,14 @@ class TextInput extends React.Component {
         );
     }
 }
+
+// Define property types.
+TextInput.propTypes = {
+    contest: PropTypes.string.isRequired,
+    progress: PropTypes.number.isRequired,
+    words: PropTypes.array.isRequired,
+    wordDone: PropTypes.func.isRequired
+};
+
 
 export default TextInput;

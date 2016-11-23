@@ -20,11 +20,11 @@ const START = {
     id: -1,
     words: [],
     users: [],
-    userId: -1,
+    userId: '',
     progress: 0,
     winner: null,
-    startTime: null,
-    duration: null,
+    startTime: 0,
+    duration: 0,
     captchaKey: null
 };
 
