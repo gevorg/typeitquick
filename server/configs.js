@@ -3,7 +3,7 @@
 // App configs.
 const configs = {
     // Server configs.
-    PORT: process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 5000,
+    PORT: process.env.PORT || 5000,
 
     // Captcha configs.
     CAPTCHA_KEY: process.env.CAPTCHA_APP_KEY,
