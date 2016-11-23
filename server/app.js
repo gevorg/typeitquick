@@ -42,10 +42,6 @@ const setupApp = (app, express, io) => {
         app.use('/', express.static(`${__dirname}/../client/build`));
     }
 
-    // Views setup.
-    app.set('view engine', 'ejs');
-    app.set('views', `${__dirname}/views`);
-
     // Setup routes.
     setupRoutes(app, io);
 

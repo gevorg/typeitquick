@@ -42,12 +42,6 @@ const setupRoutes = (app, io) => {
             res.status(400).send('Missing parameters!');
         }
     });
-
-    // Load new index page.
-    app.get('/', (req, res) => {
-        // Render contest.
-        res.render('index');
-    });
 };
 
 // Export setup.
