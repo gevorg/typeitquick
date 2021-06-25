@@ -125,7 +125,7 @@ class App extends React.Component {
             }
         }
 
-        this.setState(...this.state, updates);
+        this.setState(updates);
         this.refs.input.focus();
     }
 

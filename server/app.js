@@ -27,20 +27,7 @@ const setupApp = (app, express, io) => {
     }));
 
     // Asset Setup.
-    app.use('/', express.static(`${__dirname}/../client`));
-
-    if ('production' !== process.env.NODE_ENV) {
-        // Webpack.
-        const webpack = require('webpack');
-        const webpackConfig = require('../webpack.config');
-        const compiler = webpack(webpackConfig);
-
-        // Add webpack middleware.
-        app.use(require('webpack-dev-middleware')(compiler));
-    } else {
-        // Build asset setup.
-        app.use('/', express.static(`${__dirname}/../client/build`));
-    }
+    app.use('/', express.static(`${__dirname}/../client-build`));
 
     // Setup routes.
     setupRoutes(app, io);
