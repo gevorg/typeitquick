@@ -7,7 +7,7 @@ Online typing contest!
 Via git (or downloaded tarball):
 
 ```bash
-$ git clone git://github.com/gevorg/typeitquick.git
+$ git clone git@github.com:gevorg/typeitquick.git
 ```
 
 ## Running
